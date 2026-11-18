@@ -9,7 +9,7 @@ type AccountListProps = {
   pendingKey: string | null;
   locked: boolean;
   hint: string;
-  autoFocusToken: number;
+  focusKey: string;
   onSelect: (entry: AccountEntry) => void;
 };
 
@@ -21,7 +21,7 @@ export function AccountList({
   pendingKey,
   locked,
   hint,
-  autoFocusToken,
+  focusKey,
   onSelect,
 }: AccountListProps) {
   const rows = useRef(new Map<string, HTMLButtonElement>());
@@ -33,8 +33,8 @@ export function AccountList({
 
   useEffect(() => {
     const first = latestEntries.current[0];
-    if (first && autoFocusToken > 0) rows.current.get(first.key)?.focus();
-  }, [autoFocusToken]);
+    if (first) rows.current.get(first.key)?.focus();
+  }, [focusKey]);
 
   const onKeyDown = (event: KeyboardEvent<HTMLUListElement>) => {
     if (!NAVIGATION_KEYS.has(event.key) || entries.length === 0) return;

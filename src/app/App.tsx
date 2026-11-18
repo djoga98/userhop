@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { AccountsView } from "../features/accounts/AccountsView";
 import { useSwitcher } from "../features/accounts/useSwitcher";
@@ -21,13 +21,13 @@ export function App() {
   const [capabilities, setCapabilities] = useState<PlatformCapabilities | null>(null);
   const [view, setView] = useState<FlyoutView>("list");
   const [openCount, setOpenCount] = useState(1);
+  const [listFocusToken, setListFocusToken] = useState(1);
   const [closing, setClosing] = useState(false);
   const prefersDark = useMediaQuery("(prefers-color-scheme: dark)");
   const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
-  const headerRef = useRef<HTMLElement>(null);
-  const footerRef = useRef<HTMLElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const chromeRefs = useMemo(() => [headerRef, footerRef] as const, []);
   const { open, close, refresh } = switcher;
   const reloadSettings = settingsController.reload;
   const visible = switcher.state.phase !== "hidden";
@@ -37,7 +37,7 @@ export function App() {
     visibleRef.current = visible;
   }, [visible]);
 
-  useFlyoutFit(chromeRefs, contentRef);
+  useFlyoutFit(panelRef, scrollerRef, contentRef);
 
   const loadCapabilities = useCallback(async () => {
     try {
@@ -121,8 +121,10 @@ export function App() {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape" || event.defaultPrevented) return;
       event.preventDefault();
-      if (view === "settings") setView("list");
-      else requestClose();
+      if (view === "settings") {
+        setView("list");
+        setListFocusToken((token) => token + 1);
+      } else requestClose();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => {
@@ -142,6 +144,7 @@ export function App() {
     >
       <div
         key={openCount}
+        ref={panelRef}
         role="dialog"
         aria-labelledby="flyout-title"
         className={`flyout-panel flex h-full flex-col overflow-hidden text-text ${
@@ -149,24 +152,27 @@ export function App() {
         }`}
       >
         <Header
-          ref={headerRef}
           view={view}
           onBack={() => {
             setView("list");
+            setListFocusToken((token) => token + 1);
           }}
           onSettings={() => {
             setView("settings");
           }}
           onClose={requestClose}
         />
-        <div className="min-h-0 flex-1 overflow-y-auto border-t border-separator">
+        <div
+          ref={scrollerRef}
+          className="flyout-scroll min-h-0 flex-1 overflow-y-auto border-t border-separator"
+        >
           <div ref={contentRef} className={view === "list" ? "p-2" : "py-1"}>
             {view === "list" ? (
               <AccountsView
                 state={switcher.state}
                 capabilities={capabilities}
                 compact={preferences?.compactRows === true}
-                autoFocusToken={openCount}
+                focusKey={`${openCount}:${listFocusToken}`}
                 onSelect={switcher.select}
                 onRefresh={() => void refresh()}
                 onOpenSignIn={switcher.openSignIn}
@@ -179,7 +185,6 @@ export function App() {
           </div>
         </div>
         <Footer
-          ref={footerRef}
           shortcut={settingsController.settings?.shortcut ?? null}
           platform={platform}
           lockAvailable={capabilities?.lockScreen.status === "available"}

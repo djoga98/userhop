@@ -1,5 +1,4 @@
 import { ArrowLeft, Settings, UsersRound, X } from "lucide-react";
-import type { Ref } from "react";
 
 import { IconButton } from "../components/IconButton";
 
@@ -8,14 +7,13 @@ type HeaderProps = {
   onBack: () => void;
   onSettings: () => void;
   onClose: () => void;
-  ref?: Ref<HTMLElement>;
 };
 
-export function Header({ view, onBack, onSettings, onClose, ref }: HeaderProps) {
+export function Header({ view, onBack, onSettings, onClose }: HeaderProps) {
   return (
-    <header ref={ref} className="flex h-[52px] shrink-0 items-center gap-2 pr-2.5 pl-3">
+    <header className="flex h-[52px] shrink-0 items-center gap-2 pr-2.5 pl-3">
       {view === "settings" ? (
-        <IconButton label="Back to accounts" onClick={onBack}>
+        <IconButton label="Back to accounts" onClick={onBack} autoFocus>
           <ArrowLeft aria-hidden="true" size={16} />
         </IconButton>
       ) : (

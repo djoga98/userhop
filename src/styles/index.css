@@ -282,3 +282,9 @@ body {
     border: 1px solid CanvasText;
   }
 }
+
+.flyout-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--fas-control-strong) transparent;
+  overscroll-behavior: contain;
+}

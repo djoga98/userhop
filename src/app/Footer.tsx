@@ -1,5 +1,4 @@
 import { Lock, ShieldCheck } from "lucide-react";
-import type { Ref } from "react";
 
 import type { Platform } from "../lib/bindings/Platform";
 import type { ShortcutStatus } from "../lib/bindings/ShortcutStatus";
@@ -11,7 +10,6 @@ type FooterProps = {
   lockAvailable: boolean;
   busy: boolean;
   onLock: () => void;
-  ref?: Ref<HTMLElement>;
 };
 
 function shortcutHint(shortcut: ShortcutStatus | null, platform: Platform) {
@@ -31,13 +29,10 @@ function shortcutHint(shortcut: ShortcutStatus | null, platform: Platform) {
   }
 }
 
-export function Footer({ shortcut, platform, lockAvailable, busy, onLock, ref }: FooterProps) {
+export function Footer({ shortcut, platform, lockAvailable, busy, onLock }: FooterProps) {
   const hint = shortcutHint(shortcut, platform);
   return (
-    <footer
-      ref={ref}
-      className="flex h-11 shrink-0 items-center justify-between gap-2 border-t border-separator px-4 text-[12px] text-secondary"
-    >
+    <footer className="flex h-11 shrink-0 items-center justify-between gap-2 border-t border-separator px-4 text-[12px] text-secondary">
       <span className={`truncate ${hint.warn ? "text-warning" : ""}`}>{hint.text}</span>
       <span className="flex shrink-0 items-center gap-1">
         <ShieldCheck aria-hidden="true" size={14} />

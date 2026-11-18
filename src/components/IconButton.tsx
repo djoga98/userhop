@@ -5,12 +5,20 @@ type IconButtonProps = {
   onClick: () => void;
   children: ReactNode;
   disabled?: boolean;
+  autoFocus?: boolean;
 };
 
-export function IconButton({ label, onClick, children, disabled = false }: IconButtonProps) {
+export function IconButton({
+  label,
+  onClick,
+  children,
+  disabled = false,
+  autoFocus = false,
+}: IconButtonProps) {
   return (
     <button
       type="button"
+      autoFocus={autoFocus}
       aria-label={label}
       title={label}
       disabled={disabled}

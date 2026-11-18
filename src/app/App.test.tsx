@@ -395,3 +395,18 @@ describe("own sessions", () => {
     });
   });
 });
+
+describe("focus continuity", () => {
+  it("moves focus into settings and back to the list", async () => {
+    installBackend();
+    const user = await renderApp();
+    await user.click(screen.getByRole("button", { name: "Settings" }));
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: "Back to accounts" })).toHaveFocus();
+    });
+    await user.keyboard("{Escape}");
+    await waitFor(() => {
+      expect(row(/Primary Tester/)).toHaveFocus();
+    });
+  });
+});

@@ -13,7 +13,7 @@ type AccountsViewProps = {
   state: SwitcherState;
   capabilities: PlatformCapabilities | null;
   compact: boolean;
-  autoFocusToken: number;
+  focusKey: string;
   onSelect: (entry: AccountEntry) => void;
   onRefresh: () => void;
   onOpenSignIn: () => void;
@@ -69,7 +69,7 @@ export function AccountsView({
   state,
   capabilities,
   compact,
-  autoFocusToken,
+  focusKey,
   onSelect,
   onRefresh,
   onOpenSignIn,
@@ -142,7 +142,7 @@ export function AccountsView({
         pendingKey={pendingKey}
         locked={busy}
         hint={hint}
-        autoFocusToken={autoFocusToken}
+        focusKey={focusKey}
         onSelect={onSelect}
       />
       {showSignInRow && (
