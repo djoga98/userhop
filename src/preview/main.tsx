@@ -4,9 +4,11 @@ import { createRoot } from "react-dom/client";
 
 import "../styles/index.css";
 import "./preview.css";
+import "./video.css";
 import { heightStore } from "./heightStore";
 import { readScene, sampleCapabilities, sampleSettings, sampleSnapshot } from "./scene";
 import { Stage } from "./Stage";
+import { VideoStage } from "./VideoStage";
 
 const scene = readScene(window.location.search);
 
@@ -24,6 +26,11 @@ mockIPC(
         return sampleCapabilities;
       case "get_settings":
         return sampleSettings(scene);
+      case "save_settings":
+        return {
+          ...sampleSettings(scene),
+          preferences: args.preferences as ReturnType<typeof sampleSettings>["preferences"],
+        };
       case "request_switch":
         throw commandError(scene.notice ? "remote_session" : "busy");
       case "fit_flyout":
@@ -40,7 +47,11 @@ const root = document.getElementById("root");
 if (root) {
   createRoot(root).render(
     <StrictMode>
-      <Stage scene={scene} />
+      {new URLSearchParams(window.location.search).has("video") ? (
+        <VideoStage />
+      ) : (
+        <Stage scene={scene} />
+      )}
     </StrictMode>,
   );
 }

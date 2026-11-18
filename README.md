@@ -16,10 +16,13 @@
 
 <br>
 
-<picture>
-  <source media="(prefers-color-scheme: light)" srcset="assets/readme/hero-light.webp">
-  <img alt="The switcher flyout listing four accounts, with the second one focused and ready to switch" src="assets/readme/hero-dark.webp" width="100%">
-</picture>
+<p align="center">
+  <a href="assets/readme/demo.mp4">
+    <img alt="Demo: pressing Win + Shift + U opens the flyout, the arrow key selects Sam Rivera, Enter hands off to the system sign-in screen, then Settings switches the app to the light theme" src="assets/readme/demo.webp" width="100%">
+  </a>
+  <br>
+  <sub>▶ <a href="assets/readme/demo.mp4"><b>Watch in HD</b></a> (MP4, 1080p, 15 s)</sub>
+</p>
 
 ## Why you'll like it
 
@@ -44,6 +47,11 @@ When you pick another account, the app hides and hands over to the operating sys
 - **On Linux** the app locks your session first, then opens your login screen (GDM, LightDM or SDDM).
 
 ## A closer look
+
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="assets/readme/hero-light.webp">
+  <img alt="The switcher flyout listing four accounts, with the second one focused and ready to switch" src="assets/readme/hero-dark.webp" width="100%">
+</picture>
 
 <table>
   <tr>
@@ -213,7 +221,17 @@ cargo test -- --ignored native_   # read-only check against your real OS session
 
 **Command-line options:** `--toggle` (show or hide the running instance), `--hidden` (start in the tray).
 
-The screenshots in this README are rendered from the app's own components with sample accounts: `pnpm preview:readme`.
+The screenshots and the demo video in this README are rendered from the app's own components with sample accounts (`pnpm preview:readme`, add `?video=1` for the animated timeline). To re-record the video, build the preview and capture it frame by frame with any Chromium-based browser, then encode with ffmpeg:
+
+```sh
+pnpm build:readme-preview
+node scripts/record-readme-video.mjs --browser "<path to chrome or msedge>" \
+  --url "file://$PWD/dist-preview/preview/index.html?video=1" --out .video
+ffmpeg -framerate 30 -i .video/frames/frame-%05d.png -c:v libx264 -crf 18 -pix_fmt yuv420p \
+  -movflags +faststart assets/readme/demo.mp4
+ffmpeg -framerate 30 -i .video/frames/frame-%05d.png -vf "fps=20,scale=960:-1:flags=lanczos" \
+  -c:v libwebp_anim -quality 95 -loop 0 assets/readme/demo.webp
+```
 
 </details>
 
