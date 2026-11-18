@@ -65,3 +65,88 @@ fn watch(sink: &EventSink) -> zbus::Result<()> {
     }
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use std::collections::HashMap;
+
+    use zbus::Message;
+    use zbus::zvariant::Value;
+
+    use super::*;
+
+    const OWN: &str = "/org/freedesktop/login1/session/_32";
+    const OTHER: &str = "/org/freedesktop/login1/session/_35";
+    const SESSION_IFACE: &str = "org.freedesktop.login1.Session";
+    const PROPS_IFACE: &str = "org.freedesktop.DBus.Properties";
+
+    fn properties(path: &str, name: &str, value: bool) -> Message {
+        let changed = HashMap::from([(name.to_owned(), Value::from(value))]);
+        Message::signal(path, PROPS_IFACE, "PropertiesChanged")
+            .expect("builder")
+            .build(&(SESSION_IFACE, changed, Vec::<String>::new()))
+            .expect("message")
+    }
+
+    #[test]
+    fn own_lock_signals_hide_the_flyout() {
+        let lock = Message::signal(OWN, SESSION_IFACE, "Lock")
+            .expect("builder")
+            .build(&())
+            .expect("message");
+        assert_eq!(
+            classify(&lock, Some(OWN)),
+            Some(SessionEvent::CurrentLocked)
+        );
+        assert_eq!(
+            classify(&properties(OWN, "LockedHint", true), Some(OWN)),
+            Some(SessionEvent::CurrentLocked)
+        );
+        assert_eq!(
+            classify(&properties(OWN, "Active", false), Some(OWN)),
+            Some(SessionEvent::CurrentLocked)
+        );
+    }
+
+    #[test]
+    fn other_sessions_and_unlocks_do_not_hide() {
+        assert_eq!(
+            classify(&properties(OTHER, "LockedHint", true), Some(OWN)),
+            None
+        );
+        assert_eq!(
+            classify(&properties(OWN, "LockedHint", false), Some(OWN)),
+            None
+        );
+        let lock_other = Message::signal(OTHER, SESSION_IFACE, "Lock")
+            .expect("builder")
+            .build(&())
+            .expect("message");
+        assert_eq!(classify(&lock_other, Some(OWN)), None);
+        assert_eq!(classify(&lock_other, None), None);
+    }
+
+    #[test]
+    fn session_churn_and_resume_refresh_the_list() {
+        let manager = "/org/freedesktop/login1";
+        let iface = "org.freedesktop.login1.Manager";
+        let new = Message::signal(manager, iface, "SessionNew")
+            .expect("builder")
+            .build(&(
+                "c3",
+                zbus::zvariant::ObjectPath::try_from(OTHER).expect("path"),
+            ))
+            .expect("message");
+        assert_eq!(classify(&new, Some(OWN)), Some(SessionEvent::Changed));
+        let sleeping = Message::signal(manager, iface, "PrepareForSleep")
+            .expect("builder")
+            .build(&true)
+            .expect("message");
+        assert_eq!(classify(&sleeping, Some(OWN)), None);
+        let resumed = Message::signal(manager, iface, "PrepareForSleep")
+            .expect("builder")
+            .build(&false)
+            .expect("message");
+        assert_eq!(classify(&resumed, Some(OWN)), Some(SessionEvent::Resumed));
+    }
+}

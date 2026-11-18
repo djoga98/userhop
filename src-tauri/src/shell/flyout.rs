@@ -106,6 +106,7 @@ fn place<R: Runtime>(app: &AppHandle<R>, window: &WebviewWindow<R>, monitor: Opt
 
 pub fn show<R: Runtime>(app: &AppHandle<R>, view: FlyoutView) {
     let Some(window) = window(app) else { return };
+    tracing::debug!(?view, "flyout show");
     place(app, &window, target_monitor(app));
     set_instant(&state(app).flyout.shown_at, Some(Instant::now()));
     if let Err(error) = window.show().and_then(|()| window.set_focus()) {
@@ -118,7 +119,11 @@ pub fn show<R: Runtime>(app: &AppHandle<R>, view: FlyoutView) {
 
 pub fn hide<R: Runtime>(app: &AppHandle<R>) {
     let Some(window) = window(app) else { return };
-    set_instant(&state(app).flyout.shown_at, None);
+    tracing::debug!("flyout hide");
+    let state = state(app);
+    set_instant(&state.flyout.shown_at, None);
+    state.flyout.busy.store(false, Ordering::Release);
+    state.capturing_shortcut.store(false, Ordering::Release);
     if let Err(error) = window.hide() {
         tracing::warn!(%error, "flyout hide failed");
     }
@@ -139,6 +144,7 @@ pub fn is_visible<R: Runtime>(app: &AppHandle<R>) -> bool {
 }
 
 pub fn toggle<R: Runtime>(app: &AppHandle<R>, view: FlyoutView) {
+    tracing::debug!(visible = is_visible(app), "flyout toggle");
     if is_visible(app) {
         hide(app);
         return;
@@ -159,6 +165,7 @@ pub fn on_focus_lost<R: Runtime>(app: &AppHandle<R>) {
         return;
     }
     set_instant(&flyout.blurred_at, Some(Instant::now()));
+    tracing::debug!("flyout lost focus");
     hide(app);
 }
 
