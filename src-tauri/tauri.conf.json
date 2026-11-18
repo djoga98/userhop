@@ -1,0 +1,64 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Fluent Account Switcher",
+  "mainBinaryName": "fluent-account-switcher",
+  "version": "0.1.0",
+  "identifier": "com.fluentaccountswitcher.desktop",
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [
+      {
+        "label": "flyout",
+        "title": "Switch account",
+        "width": 388,
+        "height": 320,
+        "minWidth": 320,
+        "minHeight": 120,
+        "visible": false,
+        "decorations": false,
+        "transparent": true,
+        "resizable": false,
+        "maximizable": false,
+        "minimizable": false,
+        "skipTaskbar": true,
+        "alwaysOnTop": true,
+        "shadow": true,
+        "focus": true,
+        "center": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src ipc: http://ipc.localhost; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'",
+      "devCsp": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src ipc: http://ipc.localhost ws://localhost:1420 ws://localhost:1421; object-src 'none'; base-uri 'none'",
+      "freezePrototype": true
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "category": "Utility",
+    "shortDescription": "Switch operating-system accounts from a compact flyout",
+    "longDescription": "A keyboard-first tray utility that lists local accounts and sessions and hands off to the operating system's own sign-in screen. It never asks for or stores credentials.",
+    "copyright": "Copyright (c) 2026 Fluent Account Switcher contributors",
+    "license": "MIT",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "nsis": { "installMode": "currentUser" }
+    },
+    "linux": {
+      "deb": { "depends": [] }
+    }
+  }
+}

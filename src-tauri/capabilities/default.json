@@ -1,0 +1,22 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "flyout",
+  "description": "Flyout window: application commands and event listening only",
+  "windows": ["flyout"],
+  "permissions": [
+    "core:event:allow-listen",
+    "core:event:allow-unlisten",
+    "allow-get-accounts",
+    "allow-get-capabilities",
+    "allow-request-switch",
+    "allow-open-system-sign-in",
+    "allow-lock-session",
+    "allow-get-settings",
+    "allow-save-settings",
+    "allow-set-shortcut",
+    "allow-set-launch-at-sign-in",
+    "allow-set-shortcut-capture",
+    "allow-hide-flyout",
+    "allow-fit-flyout"
+  ]
+}

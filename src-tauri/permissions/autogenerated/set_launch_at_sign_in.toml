@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-set-launch-at-sign-in"
+description = "Enables the set_launch_at_sign_in command without any pre-configured scope."
+commands.allow = ["set_launch_at_sign_in"]
+
+[[permission]]
+identifier = "deny-set-launch-at-sign-in"
+description = "Denies the set_launch_at_sign_in command without any pre-configured scope."
+commands.deny = ["set_launch_at_sign_in"]
