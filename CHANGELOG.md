@@ -2,7 +2,7 @@
 
 ## 0.1.0 — unreleased (2026-11-18)
 
-**Verified targets:** Windows 11 Pro build 26300 x64 (read-only session enumeration test, desktop smoke test of the debug and release builds). Linux build and logind enumeration verified on Ubuntu 24.04 under WSL2 only; no real GNOME/KDE desktop tested yet.
+**Verified targets:** Windows 11 Pro build 26300 x64: read-only session enumeration test, desktop smoke tests, and a manual two-account test on two monitors (switching through the sign-in screen, returning without rearranged icons, flicker-free flyout, full-height Settings, switching back to the last account) with the installed NSIS build. Linux build and logind enumeration verified on Ubuntu 24.04 under WSL2 only; no real GNOME/KDE desktop tested yet.
 
 **Features**
 
@@ -31,7 +31,7 @@ OS authentication remains native. The app never accepts or stores credentials, e
 **Known limitations**
 
 - Windows cannot preselect the chosen account on the sign-in screen.
-- Two-user switching not yet verified by hand on Windows, macOS or Linux.
+- Two-user switching verified by hand on Windows 11 only; not yet on Windows 10, macOS or Linux.
 - Windows 10: same native APIs as Windows 11 and type-checked by the same build, but not yet run on a real Windows 10 device. No Acrylic (solid background, no native shadow).
 - macOS: switching and locking use the system's private `login.framework` (the component behind the Fast User Switching menu), resolved at runtime; the build is type-checked for both Mac architectures but has not yet run on a real Mac. The app is not notarized.
 - Wayland: global shortcut unavailable (use `--toggle`); no background blur on Linux.
