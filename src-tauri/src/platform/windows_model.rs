@@ -171,11 +171,11 @@ pub fn assemble_snapshot(raw: &RawWindowsState) -> Option<SystemSnapshot> {
     })
 }
 
-/// Switch-user is the OS sign-in screen reached by disconnecting the own console session.
+/// Switch-user is the OS sign-in screen reached by locking the own console session.
 pub fn capabilities(policy: &RawWindowsPolicy) -> ProviderCapabilities {
     let on_console = policy.console_session_id == Some(policy.own_session_id)
         && policy.own_protocol.is_none_or(|p| p == PROTOCOL_CONSOLE);
-    let system_sign_in = if policy.hide_fast_user_switching {
+    let system_sign_in = if policy.hide_fast_user_switching || policy.lock_disabled {
         Capability::unavailable(ErrorCode::PolicyDisabled)
     } else if !on_console {
         Capability::unavailable(ErrorCode::RemoteSession)
@@ -406,8 +406,13 @@ mod tests {
         assert_eq!(caps.sign_in_surface, SignInSurface::None);
         let mut no_lock = policy();
         no_lock.lock_disabled = true;
+        let caps = capabilities(&no_lock);
         assert_eq!(
-            capabilities(&no_lock).lock_screen,
+            caps.lock_screen,
+            Capability::unavailable(ErrorCode::PolicyDisabled)
+        );
+        assert_eq!(
+            caps.system_sign_in,
             Capability::unavailable(ErrorCode::PolicyDisabled)
         );
     }

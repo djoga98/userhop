@@ -236,6 +236,11 @@ fn fit_flyout(app: AppHandle, height: f64) {
     flyout::fit(&app, height);
 }
 
+#[tauri::command]
+fn flyout_ready(app: AppHandle, height: f64) {
+    flyout::ready(&app, height);
+}
+
 fn handle_args(app: &AppHandle, args: &[String]) {
     if args.iter().any(|a| a == ARG_TOGGLE) {
         flyout::toggle(app, FlyoutView::List);
@@ -359,6 +364,7 @@ pub fn run() {
             set_shortcut_capture,
             hide_flyout,
             fit_flyout,
+            flyout_ready,
         ])
         .build(tauri::generate_context!())
         .map(|app| {

@@ -11,6 +11,7 @@ const COMMANDS: &[&str] = &[
     "set_shortcut_capture",
     "hide_flyout",
     "fit_flyout",
+    "flyout_ready",
 ];
 
 fn main() {

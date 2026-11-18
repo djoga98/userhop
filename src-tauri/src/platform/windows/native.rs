@@ -16,10 +16,9 @@ use windows::Win32::System::Registry::{
     HKEY, HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, RRF_RT_REG_DWORD, RRF_RT_REG_SZ, RegGetValueW,
 };
 use windows::Win32::System::RemoteDesktop::{
-    ProcessIdToSessionId, WTS_CONNECTSTATE_CLASS, WTS_CURRENT_SESSION, WTS_INFO_CLASS,
-    WTS_SESSION_INFOW, WTSActive, WTSClientProtocolType, WTSConnected, WTSDisconnectSession,
-    WTSDisconnected, WTSDomainName, WTSEnumerateSessionsW, WTSFreeMemory,
-    WTSGetActiveConsoleSessionId, WTSQuerySessionInformationW, WTSUserName,
+    ProcessIdToSessionId, WTS_CONNECTSTATE_CLASS, WTS_INFO_CLASS, WTS_SESSION_INFOW, WTSActive,
+    WTSClientProtocolType, WTSConnected, WTSDisconnected, WTSDomainName, WTSEnumerateSessionsW,
+    WTSFreeMemory, WTSGetActiveConsoleSessionId, WTSQuerySessionInformationW, WTSUserName,
 };
 use windows::Win32::System::Shutdown::LockWorkStation;
 use windows::Win32::System::Threading::{GetCurrentProcess, GetCurrentProcessId, OpenProcessToken};
@@ -366,12 +365,6 @@ pub fn windows_build_number() -> Option<u32> {
     }
     let len = data.iter().position(|&c| c == 0).unwrap_or(data.len());
     String::from_utf16(&data[..len]).ok()?.parse().ok()
-}
-
-/// Disconnecting the own console session keeps it running and shows the Windows sign-in screen.
-pub fn disconnect_current_session() -> SwitcherResult<()> {
-    unsafe { WTSDisconnectSession(None, WTS_CURRENT_SESSION, false) }
-        .map_err(|e| map_error("WTSDisconnectSession", &e))
 }
 
 pub fn lock_workstation() -> SwitcherResult<()> {

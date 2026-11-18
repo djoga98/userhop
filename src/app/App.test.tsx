@@ -34,7 +34,9 @@ describe("account list", () => {
     expect(items).toHaveLength(3);
     expect(items[0]).toHaveAccessibleName("Primary Tester (primary)");
     expect(items[0]).toHaveAccessibleDescription(/Current session/);
-    expect(row(/Second Tester/)).toHaveAccessibleDescription(/Signed in.*Switch.*Windows sign-in/);
+    expect(row(/Second Tester/)).toHaveAccessibleDescription(
+      /Signed in.*Switch.*Windows locks this PC/,
+    );
     expect(row(/Third Tester/)).toHaveAccessibleDescription(/Not signed in.*Open sign-in/);
     expect(row(/Third Tester/)).toHaveAttribute("title", expect.stringContaining("Very Long"));
   });
@@ -448,5 +450,94 @@ describe("Windows 10", () => {
       expect(container.firstElementChild).toHaveAttribute("data-platform", "windows");
     });
     expect(container.firstElementChild).toHaveAttribute("data-backdrop", "none");
+  });
+});
+
+describe("flyout reveal handshake", () => {
+  it("reports ready with a height on start and on every reopen", async () => {
+    const backend = installBackend();
+    await renderApp();
+    expect(backend.count("flyout_ready")).toBe(1);
+    expect(typeof backend.last("flyout_ready")?.args.height).toBe("number");
+    await act(async () => {
+      await emit("flyout://opened", { view: "settings" });
+    });
+    await screen.findByRole("heading", { name: "Settings" });
+    expect(backend.count("flyout_ready")).toBe(2);
+  });
+
+  it("refits instead of re-announcing when switching views while open", async () => {
+    const backend = installBackend();
+    const user = await renderApp();
+    const fits = backend.count("fit_flyout");
+    await user.click(screen.getByRole("button", { name: "Settings" }));
+    await screen.findByRole("heading", { name: "Settings" });
+    expect(backend.count("flyout_ready")).toBe(1);
+    expect(backend.count("fit_flyout")).toBeGreaterThan(fits);
+  });
+
+  it("explains that Windows locks first and the account is picked on the sign-in screen", async () => {
+    installBackend();
+    await renderApp();
+    expect(screen.getByText(/Windows locks this PC.*bottom-left corner/)).toBeInTheDocument();
+  });
+
+  it("skips the CSS fade when the OS draws a native backdrop", async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const backend = installBackend({
+      get_capabilities: () => capabilities({ backdrop: "acrylic" }),
+    });
+    const user = await renderApp();
+    await waitFor(() => {
+      expect(document.querySelector(".flyout-enter")).toBeNull();
+    });
+    await user.keyboard("{Escape}");
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(5);
+    });
+    expect(backend.count("hide_flyout")).toBe(1);
+    vi.useRealTimers();
+  });
+});
+
+describe("focus trap", () => {
+  it("keeps Tab and Shift+Tab inside the panel", async () => {
+    installBackend();
+    const user = await renderApp();
+    await waitFor(() => {
+      expect(row(/Primary Tester/)).toHaveFocus();
+    });
+    await user.tab({ shift: true });
+    await user.tab({ shift: true });
+    expect(screen.getByRole("button", { name: "Settings" })).toHaveFocus();
+    await user.tab({ shift: true });
+    expect(screen.getByRole("button", { name: "Lock screen" })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole("button", { name: "Settings" })).toHaveFocus();
+  });
+
+  it("caps the list lower than settings", async () => {
+    const many = Array.from({ length: 30 }, (_, i) =>
+      entry({ key: `account:t:${String(100 + i)}`, displayName: `Tester ${String(i)}` }),
+    );
+    const backend = installBackend({ get_accounts: () => snapshot([currentEntry, ...many]) });
+    const original = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "offsetHeight");
+    Object.defineProperty(HTMLElement.prototype, "offsetHeight", {
+      configurable: true,
+      get() {
+        return (this as HTMLElement).classList.contains("flyout-panel") ? 300 : 2000;
+      },
+    });
+    try {
+      const user = await renderApp();
+      expect(backend.last("flyout_ready")?.args.height).toBe(520);
+      await user.click(screen.getByRole("button", { name: "Settings" }));
+      await screen.findByRole("heading", { name: "Settings" });
+      await waitFor(() => {
+        expect(backend.last("fit_flyout")?.args.height).toBe(700);
+      });
+    } finally {
+      if (original) Object.defineProperty(HTMLElement.prototype, "offsetHeight", original);
+    }
   });
 });

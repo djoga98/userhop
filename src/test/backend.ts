@@ -35,6 +35,7 @@ export function installBackend(overrides: Record<string, Handler> = {}) {
     set_shortcut_capture: () => null,
     hide_flyout: () => null,
     fit_flyout: () => null,
+    flyout_ready: () => null,
     ...overrides,
   };
   mockIPC(

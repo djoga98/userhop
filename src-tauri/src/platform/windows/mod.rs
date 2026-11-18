@@ -57,11 +57,14 @@ impl SessionProvider for WindowsProvider {
         Err(SwitcherError::new(ErrorCode::UnsupportedPlatform))
     }
 
+    /// Locking keeps the console session attached to its displays, unlike `WTSDisconnectSession`,
+    /// which tears down the display topology and rearranges desktops on multi-monitor setups.
+    /// The sign-in screen then lists the other accounts and Windows performs the real switch.
     fn open_system_sign_in(&self) -> SwitcherResult<()> {
         if !capabilities(&Self::policy()).system_sign_in.is_available() {
             return Err(SwitcherError::new(ErrorCode::SecureHandoffUnavailable));
         }
-        native::disconnect_current_session()
+        native::lock_workstation()
     }
 
     fn lock_current_session(&self) -> SwitcherResult<()> {

@@ -17,6 +17,7 @@
     "allow-set-launch-at-sign-in",
     "allow-set-shortcut-capture",
     "allow-hide-flyout",
-    "allow-fit-flyout"
+    "allow-fit-flyout",
+    "allow-flyout-ready"
   ]
 }

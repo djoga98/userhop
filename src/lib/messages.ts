@@ -61,7 +61,7 @@ export function actionLabel(entry: AccountEntry): string | null {
 export function handoffDescription(surface: SignInSurface): string {
   switch (surface) {
     case "windows-sign-in":
-      return "Opens the Windows sign-in screen. Your apps keep running.";
+      return "Windows locks this PC and shows its sign-in screen. Your apps keep running.";
     case "gdm":
     case "freedesktop-display-manager":
       return "Locks this session and opens the login screen. Your apps keep running.";
@@ -69,6 +69,21 @@ export function handoffDescription(surface: SignInSurface): string {
       return "Opens the macOS login window. Your apps keep running.";
     case "none":
       return "System sign-in isn't available here.";
+  }
+}
+
+/** What the person has to do on the OS screen; Windows cannot preselect the chosen account. */
+export function handoffInstruction(surface: SignInSurface): string | null {
+  switch (surface) {
+    case "windows-sign-in":
+      return "After you choose an account, Windows locks this PC. On the sign-in screen, select that account in the bottom-left corner and sign in.";
+    case "gdm":
+    case "freedesktop-display-manager":
+      return "After you choose an account, this session locks and the login screen opens. Select the account there and sign in.";
+    case "macos-login-window":
+      return "After you choose an account, the macOS login window opens. Select the account there and sign in.";
+    case "none":
+      return null;
   }
 }
 

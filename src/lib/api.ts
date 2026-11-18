@@ -76,6 +76,7 @@ export const api = {
   setShortcutCapture: (active: boolean) => call<null>("set_shortcut_capture", { active }),
   hideFlyout: () => call<null>("hide_flyout"),
   fitFlyout: (height: number) => call<null>("fit_flyout", { height }),
+  flyoutReady: (height: number) => call<null>("flyout_ready", { height }),
 };
 
 export const events = {

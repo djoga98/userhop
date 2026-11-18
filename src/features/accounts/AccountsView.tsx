@@ -1,10 +1,15 @@
-import { LoaderCircle, LogIn } from "lucide-react";
+import { Info, LoaderCircle, LogIn } from "lucide-react";
 
 import { Notice, NoticeAction } from "../../components/Notice";
 import type { AccountEntry } from "../../lib/bindings/AccountEntry";
 import type { ErrorCode } from "../../lib/bindings/ErrorCode";
 import type { PlatformCapabilities } from "../../lib/bindings/PlatformCapabilities";
-import { errorMessages, handoffDescription, staleCodes } from "../../lib/messages";
+import {
+  errorMessages,
+  handoffDescription,
+  handoffInstruction,
+  staleCodes,
+} from "../../lib/messages";
 import { AccountList } from "./AccountList";
 import type { SwitcherState } from "./switcherState";
 import { LOCK_TARGET, SIGN_IN_TARGET } from "./useSwitcher";
@@ -176,6 +181,12 @@ export function AccountsView({
             </span>
           </span>
         </button>
+      )}
+      {signInAvailable && others.length > 0 && (
+        <p className="flex gap-2 px-3 pt-2.5 text-[12px] leading-snug text-secondary">
+          <Info aria-hidden="true" size={14} className="mt-px shrink-0" />
+          <span>{handoffInstruction(capabilities.signInSurface)}</span>
+        </p>
       )}
       {!snapshot.directoryComplete && (
         <p className="px-3 pt-2 text-[12px] text-secondary">

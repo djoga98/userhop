@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { AccountsView } from "../features/accounts/AccountsView";
 import { useSwitcher } from "../features/accounts/useSwitcher";
@@ -7,12 +7,14 @@ import { useSettings } from "../features/settings/useSettings";
 import { api, events } from "../lib/api";
 import type { FlyoutView } from "../lib/bindings/FlyoutView";
 import type { PlatformCapabilities } from "../lib/bindings/PlatformCapabilities";
-import { useFlyoutFit } from "../lib/useFlyoutFit";
+import { fitFlyout, flyoutReady, useFlyoutFit } from "../lib/useFlyoutFit";
 import { useMediaQuery } from "../lib/useMediaQuery";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
 const REFRESH_DEBOUNCE_MS = 250;
+const MAX_HEIGHT: Record<FlyoutView, number> = { list: 520, settings: 700 };
+const FOCUSABLE = "button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex='-1'])";
 const CLOSE_ANIMATION_MS = 120;
 
 export function App() {
@@ -37,7 +39,26 @@ export function App() {
     visibleRef.current = visible;
   }, [visible]);
 
-  useFlyoutFit(panelRef, scrollerRef, contentRef);
+  const fitTargets = useMemo(
+    () => ({
+      panel: panelRef,
+      scroller: scrollerRef,
+      content: contentRef,
+      maxHeight: MAX_HEIGHT[view],
+    }),
+    [view],
+  );
+  useFlyoutFit(fitTargets, openCount);
+  const announcedOpen = useRef(0);
+
+  useLayoutEffect(() => {
+    if (announcedOpen.current !== openCount) {
+      announcedOpen.current = openCount;
+      flyoutReady(fitTargets);
+    } else {
+      fitFlyout(fitTargets);
+    }
+  }, [fitTargets, openCount]);
 
   const loadCapabilities = useCallback(async () => {
     try {
@@ -103,6 +124,8 @@ export function App() {
 
   const preferences = settingsController.settings?.preferences;
   const reducedMotion = prefersReducedMotion || preferences?.reduceMotion === true;
+  const nativeBackdrop = capabilities !== null && capabilities.backdrop !== "none";
+  const animated = !reducedMotion && !nativeBackdrop;
   const theme = preferences?.theme ?? "system";
   const resolvedTheme = theme === "system" ? (prefersDark ? "dark" : "light") : theme;
 
@@ -113,12 +136,26 @@ export function App() {
       () => {
         void api.hideFlyout();
       },
-      reducedMotion ? 0 : CLOSE_ANIMATION_MS,
+      animated ? CLOSE_ANIMATION_MS : 0,
     );
-  }, [closing, reducedMotion]);
+  }, [closing, animated]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Tab" && !event.defaultPrevented) {
+        const focusable = Array.from(
+          panelRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? [],
+        );
+        const first = focusable[0];
+        const last = focusable.at(-1);
+        const active = document.activeElement;
+        const outside = !panelRef.current?.contains(active);
+        if (first && last && (outside || active === (event.shiftKey ? first : last))) {
+          event.preventDefault();
+          (event.shiftKey ? last : first).focus();
+        }
+        return;
+      }
       if (event.key !== "Escape" || event.defaultPrevented) return;
       event.preventDefault();
       if (view === "settings") {
@@ -149,7 +186,7 @@ export function App() {
         role="dialog"
         aria-labelledby="flyout-title"
         className={`flyout-panel flex h-full flex-col overflow-hidden text-text ${
-          closing ? "flyout-leave" : "flyout-enter"
+          animated ? (closing ? "flyout-leave" : "flyout-enter") : ""
         }`}
       >
         <Header
