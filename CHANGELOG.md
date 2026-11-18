@@ -10,11 +10,18 @@
 
 - Windows 10 and 11 support. The flyout is styled after the Windows 11 clipboard panel, with native Acrylic on Windows 11 and a solid Fluent-tinted fallback on Windows 10 and Linux; light, dark and system themes; high-contrast (`forced-colors`) styling; reduced motion.
 - Real account and session discovery: Windows WTS sessions plus local accounts from NetAPI (disabled and sign-in-hidden accounts excluded); Linux logind sessions plus AccountsService users.
-- Switching hands off to the OS: Windows sign-in screen via `WTSDisconnectSession` of the own console session; Linux login screen (GDM, LightDM, SDDM) after a confirmed lock of the own session; direct activation only for the user's own second session.
+- Switching hands off to the OS: on Windows the PC is locked with `LockWorkStation` and the person picks the account on the Windows sign-in screen (the session stays attached to its displays); Linux login screen (GDM, LightDM, SDDM) after a confirmed lock of the own session; macOS login window; direct activation only for the user's own second session.
 - Lock screen action (tray, footer).
 - Global shortcut (default Win/Super + Shift + U) with conflict detection and in-app capture; `--toggle` for desktops without global shortcuts.
 - Launch at sign-in (per user, off by default).
 - Keyboard: arrows/Home/End move between rows, Enter/Space activate, Escape goes back then closes, focus moves into Settings and back.
+
+**Fixes after the first test build**
+
+- Windows: switching no longer disconnects the console session (`WTSDisconnectSession`), which looked like a plain lock and rearranged desktop icons on multi-monitor setups when returning. It now locks the PC like Win+L, and the panel explains that the account is chosen in the bottom-left corner of the sign-in screen.
+- The flyout stays hidden until the new state is rendered and sized, so it no longer flickers on open; the CSS fade is skipped where the OS draws Acrylic or vibrancy.
+- Settings opens at its full height (up to 700 px within the work area); previously the size tracking stopped after the first reopen.
+- Tab and Shift+Tab now cycle inside the panel instead of leaving it.
 
 **Security behavior**
 

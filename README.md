@@ -44,7 +44,7 @@ Sharing one computer between work and personal accounts, or with family? Normall
 
 When you pick another account, the app hides and hands over to the operating system:
 
-- **On Windows** your session stays open in the background and the Windows sign-in screen appears. Choose the account there and sign in. Everything you had open is still there when you switch back.
+- **On Windows** the PC locks, just like pressing <kbd>Win</kbd> + <kbd>L</kbd>, and the Windows sign-in screen appears. Pick the account in the bottom-left corner and sign in; Windows then switches for real. Your own session and everything you had open keep running, and nothing is rearranged on your monitors when you come back.
 - **On macOS** the familiar macOS login window appears, just like when you use the Fast User Switching menu. Your session keeps running and needs your password to return.
 - **On Linux** the app locks your session first, then opens your login screen (GDM, LightDM or SDDM).
 
@@ -145,7 +145,7 @@ Your accounts are protected by your operating system, and this app is built to k
 <details>
 <summary><b>Why doesn't Windows jump straight into the account I picked?</b></summary>
 
-Windows doesn't let apps sign anyone in, and that's a good thing. The app takes you to the Windows sign-in screen, where you pick the account and sign in as usual. Your own session keeps running in the background.
+Windows doesn't let apps sign anyone in or preselect an account on the sign-in screen, and that's a good thing. So the app locks the PC and Windows shows its sign-in screen: click the account you want in the bottom-left corner and sign in as usual. Your own session keeps running in the background.
 
 </details>
 
