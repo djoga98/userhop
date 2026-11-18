@@ -105,6 +105,7 @@ pub fn build_snapshot(
         presence: Presence::Current,
         sessions: own_sessions.iter().map(|s| summary(s)).collect(),
         availability: SwitchAvailability::Current,
+        recent: false,
     }];
 
     for session in own_sessions.iter().filter(|s| {
@@ -133,6 +134,7 @@ pub fn build_snapshot(
             presence: Presence::OwnSession,
             sessions: vec![summary(session)],
             availability,
+            recent: false,
         });
     }
 
@@ -158,6 +160,7 @@ pub fn build_snapshot(
                     capabilities.system_sign_in,
                     SwitchAvailability::SystemSignIn,
                 ),
+                recent: false,
             }
         })
         .collect();
@@ -175,6 +178,25 @@ pub fn build_snapshot(
         entries,
         directory_complete: snapshot.directory_complete,
     })
+}
+
+/// Marks the account the user last switched to and lists it first after the user's own entries.
+pub fn mark_recent(view: &mut AccountSnapshot, recent: &AccountKey) {
+    let Some(index) = view
+        .entries
+        .iter()
+        .position(|e| !e.is_current_user && e.account_id == recent.0)
+    else {
+        return;
+    };
+    let mut entry = view.entries.remove(index);
+    entry.recent = true;
+    let insert_at = view
+        .entries
+        .iter()
+        .position(|e| !e.is_current_user)
+        .unwrap_or(view.entries.len());
+    view.entries.insert(insert_at, entry);
 }
 
 /// Resolves a UI request against a fresh OS snapshot; the UI's own view is never trusted.
@@ -462,6 +484,36 @@ mod tests {
                 .len(),
             MAX_ENTRIES
         );
+    }
+
+    #[test]
+    fn recent_account_moves_up_and_is_marked_once() {
+        let mut snap = base();
+        snap.sessions.push(session(
+            "t:s:7",
+            "t:1000",
+            SessionKind::LocalGraphical,
+            Some("seat0"),
+        ));
+        let mut view = build_snapshot(&snap, &caps_all()).expect("view");
+        mark_recent(&mut view, &AccountKey("t:1001".into()));
+        let order: Vec<_> = view
+            .entries
+            .iter()
+            .map(|e| e.display_name.as_str())
+            .collect();
+        assert_eq!(order, ["Ana", "Ana", "Zoran", "bojan"]);
+        assert_eq!(view.entries.iter().filter(|e| e.recent).count(), 1);
+        assert!(view.entries[2].recent);
+    }
+
+    #[test]
+    fn recent_never_marks_the_current_user_or_unknown_accounts() {
+        let mut view = build_snapshot(&base(), &caps_all()).expect("view");
+        let before = view.clone();
+        mark_recent(&mut view, &AccountKey("t:1000".into()));
+        mark_recent(&mut view, &AccountKey("t:9999".into()));
+        assert_eq!(view, before);
     }
 
     #[test]

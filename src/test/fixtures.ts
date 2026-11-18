@@ -13,6 +13,7 @@ export function entry(overrides: Partial<AccountEntry> & Pick<AccountEntry, "key
     presence: "not-signed-in",
     sessions: [],
     availability: { mode: "system-sign-in" },
+    recent: false,
     ...overrides,
   };
 }

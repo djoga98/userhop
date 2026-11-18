@@ -1,6 +1,7 @@
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 
+use tauri::menu::MenuItem;
 use tauri::{AppHandle, Emitter, Manager, RunEvent, WindowEvent};
 use tauri_plugin_autostart::ManagerExt;
 use tauri_plugin_global_shortcut::ShortcutState as KeyState;
@@ -30,6 +31,39 @@ pub struct AppState {
     pub shortcut: Mutex<ShortcutStatus>,
     pub capturing_shortcut: AtomicBool,
     pub backdrop: Mutex<Backdrop>,
+    pub recent_menu_item: Mutex<Option<MenuItem<tauri::Wry>>>,
+}
+
+fn refresh_recent_menu(app: &AppHandle) {
+    let state = app.state::<AppState>();
+    let Some(recent) = state.service.recent() else {
+        return;
+    };
+    let Ok(slot) = state.recent_menu_item.lock() else {
+        return;
+    };
+    if let Some(item) = slot.as_ref() {
+        let text = tray::recent_text(&recent.label);
+        if let Err(error) = item.set_text(text).and_then(|()| item.set_enabled(true)) {
+            tracing::warn!(%error, "recent menu update failed");
+        }
+    }
+}
+
+pub fn switch_back_from_tray(app: &AppHandle) {
+    let app = app.clone();
+    tauri::async_runtime::spawn_blocking(move || {
+        let result = with_handoff(&app, |before| {
+            app.state::<AppState>().service.switch_to_recent(before)
+        });
+        match result {
+            Ok(_) => refresh_recent_menu(&app),
+            Err(error) => {
+                tracing::warn!(code = ?error.code, "switch back from tray failed");
+                flyout::show(&app, FlyoutView::List);
+            }
+        }
+    });
 }
 
 async fn blocking<T, F>(app: AppHandle, task: F) -> SwitcherResult<T>
@@ -86,11 +120,15 @@ async fn get_capabilities(app: AppHandle) -> SwitcherResult<PlatformCapabilities
 #[tauri::command]
 async fn request_switch(app: AppHandle, request: SwitchRequest) -> SwitcherResult<SwitchResult> {
     blocking(app, move |app| {
-        with_handoff(app, |before| {
+        let result = with_handoff(app, |before| {
             app.state::<AppState>()
                 .service
                 .request_switch(&request, before)
-        })
+        });
+        if result.is_ok() {
+            refresh_recent_menu(app);
+        }
+        result
     })
     .await
 }
@@ -281,6 +319,7 @@ fn setup(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
         }),
         capturing_shortcut: AtomicBool::new(false),
         backdrop: Mutex::new(Backdrop::None),
+        recent_menu_item: Mutex::new(None),
     });
 
     if let Some(window) = handle.get_webview_window(flyout::LABEL) {
@@ -302,7 +341,10 @@ fn setup(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
         .capabilities()
         .lock_screen
         .is_available();
-    tray::install(&handle, lock_available)?;
+    let recent_item = tray::install(&handle, lock_available)?;
+    if let Ok(mut slot) = handle.state::<AppState>().recent_menu_item.lock() {
+        *slot = Some(recent_item);
+    }
 
     let sink_handle = handle.clone();
     platform::spawn_session_watcher(Arc::new(move |event| on_session_event(&sink_handle, event)));

@@ -541,3 +541,29 @@ describe("focus trap", () => {
     }
   });
 });
+
+describe("switch back to the last account", () => {
+  it("marks the last used account, focuses it and switches with Enter", async () => {
+    const recent = { ...signedInEntry, recent: true };
+    const backend = installBackend({ get_accounts: () => snapshot([currentEntry, recent]) });
+    const user = await renderApp();
+    const row2 = row(/Second Tester/);
+    expect(row2).toHaveAccessibleDescription(/Signed in · Last used/);
+    await waitFor(() => {
+      expect(row2).toHaveFocus();
+    });
+    await user.keyboard("{Enter}");
+    expect(backend.last("request_switch")?.args).toEqual({
+      request: { accountId: "t:2", sessionId: null },
+    });
+  });
+
+  it("keeps focus on the current account when nothing was used yet", async () => {
+    installBackend();
+    await renderApp();
+    await waitFor(() => {
+      expect(row(/Primary Tester/)).toHaveFocus();
+    });
+    expect(screen.queryByText(/Last used/)).toBeNull();
+  });
+});

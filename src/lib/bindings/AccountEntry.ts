@@ -3,4 +3,4 @@ import type { Presence } from "./Presence";
 import type { SessionSummary } from "./SessionSummary";
 import type { SwitchAvailability } from "./SwitchAvailability";
 
-export type AccountEntry = { key: string, accountId: string, sessionId: string | null, displayName: string, userName: string, isCurrentUser: boolean, presence: Presence, sessions: Array<SessionSummary>, availability: SwitchAvailability, };
+export type AccountEntry = { key: string, accountId: string, sessionId: string | null, displayName: string, userName: string, isCurrentUser: boolean, presence: Presence, sessions: Array<SessionSummary>, availability: SwitchAvailability, recent: boolean, };

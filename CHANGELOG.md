@@ -12,6 +12,7 @@
 - Real account and session discovery: Windows WTS sessions plus local accounts from NetAPI (disabled and sign-in-hidden accounts excluded); Linux logind sessions plus AccountsService users.
 - Switching hands off to the OS: on Windows the PC is locked with `LockWorkStation` and the person picks the account on the Windows sign-in screen (the session stays attached to its displays); Linux login screen (GDM, LightDM, SDDM) after a confirmed lock of the own session; macOS login window; direct activation only for the user's own second session.
 - Lock screen action (tray, footer).
+- Switch back to the last account: the last account you switched to is marked *Last used*, listed first and focused when the flyout opens (shortcut + Enter), and offered in the tray as *Switch back to …*. It is kept in memory only, so nothing about other users is written to disk; the request goes through the same fresh validation as any other switch.
 - Global shortcut (default Win/Super + Shift + U) with conflict detection and in-app capture; `--toggle` for desktops without global shortcuts.
 - Launch at sign-in (per user, off by default).
 - Keyboard: arrows/Home/End move between rows, Enter/Space activate, Escape goes back then closes, focus moves into Settings and back.

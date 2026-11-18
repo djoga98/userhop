@@ -34,6 +34,7 @@ Sharing one computer between work and personal accounts, or with family? Normall
 - **🔐 Your OS stays in charge.** The app never asks for your password. Windows, the macOS login window or your Linux login screen does the signing in, exactly as it normally would.
 - **🪟 Native look.** Acrylic glass on Windows 11, vibrancy on macOS, rounded corners, light and dark themes that follow your system.
 - **⌨️ Keyboard first.** Arrow keys, <kbd>Enter</kbd> and <kbd>Esc</kbd>. No mouse required.
+- **↩️ Switch back fast.** The account you switched to last is marked *Last used*, listed first and already selected, so the shortcut followed by <kbd>Enter</kbd> takes you back. It's also in the tray menu as *Switch back to …*.
 - **🪶 Lightweight.** A ~1.3 MB Windows installer that sits quietly in the tray and uses almost no CPU when idle.
 
 ## How it works
@@ -109,13 +110,14 @@ Want it ready every time you sign in? Open **Settings → Launch at sign-in**.
 | Keys | Action |
 | --- | --- |
 | <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>U</kbd> · Mac: <kbd>⌃</kbd> <kbd>⌥</kbd> <kbd>U</kbd> | Open or close the switcher (you can change this in Settings) |
+| Shortcut, then <kbd>Enter</kbd> | Switch back to the account you used last |
 | <kbd>↑</kbd> <kbd>↓</kbd> <kbd>Home</kbd> <kbd>End</kbd> | Move between accounts |
 | <kbd>Enter</kbd> or <kbd>Space</kbd> | Switch to the selected account |
 | <kbd>Esc</kbd> | Leave Settings, then close the panel |
 
 ### Tray and menu bar
 
-Right-click the tray icon (on macOS, the menu bar icon) for **Open account switcher**, **Lock screen**, **Settings** and **Quit**. On macOS the app lives only in the menu bar, not in the Dock.
+Right-click the tray icon (on macOS, the menu bar icon) for **Open account switcher**, **Switch back to …** (your last account), **Lock screen**, **Settings** and **Quit**. On macOS the app lives only in the menu bar, not in the Dock.
 
 ## Privacy and security
 
@@ -124,7 +126,7 @@ Your accounts are protected by your operating system, and this app is built to k
 - **No passwords, PINs or tokens.** The app has no password field and no way to receive one.
 - **No direct access to other desktops.** Another person's session is never opened without the OS asking them to sign in.
 - **Nothing leaves your computer.** No accounts, analytics, ads, update pings or network requests.
-- **Almost nothing is saved.** Only your preferences (theme, shortcut, compact rows, reduce motion). Never account names or session details.
+- **Almost nothing is saved.** Only your preferences (theme, shortcut, compact rows, reduce motion). Never account names or session details. The *Last used* account is kept in memory only and forgotten when the app quits.
 - **No admin rights, no services.** It runs as you, installs nothing in the background and adds nothing to the login process.
 
 ## Platform support

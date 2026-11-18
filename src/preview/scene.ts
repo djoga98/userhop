@@ -48,6 +48,7 @@ function account(
     presence,
     sessions: [],
     availability: current ? { mode: "current" } : { mode: "system-sign-in" },
+    recent: false,
   };
 }
 

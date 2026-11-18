@@ -69,6 +69,7 @@ pub struct AccountEntry {
     pub presence: Presence,
     pub sessions: Vec<SessionSummary>,
     pub availability: SwitchAvailability,
+    pub recent: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]

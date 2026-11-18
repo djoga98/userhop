@@ -39,10 +39,12 @@ const presenceLabels: Record<Presence, string> = {
 };
 
 export function statusLabel(entry: AccountEntry): string {
+  const parts = [presenceLabels[entry.presence]];
+  if (entry.recent) parts.push("Last used");
   if (entry.availability.mode === "unavailable" && !entry.isCurrentUser) {
-    return `${presenceLabels[entry.presence]} · System sign-in required`;
+    parts.push("System sign-in required");
   }
-  return presenceLabels[entry.presence];
+  return parts.join(" · ");
 }
 
 export function actionLabel(entry: AccountEntry): string | null {

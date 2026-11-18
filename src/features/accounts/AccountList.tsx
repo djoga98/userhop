@@ -32,8 +32,9 @@ export function AccountList({
   });
 
   useEffect(() => {
-    const first = latestEntries.current[0];
-    if (first) rows.current.get(first.key)?.focus();
+    const entries = latestEntries.current;
+    const target = entries.find((e) => e.recent) ?? entries[0];
+    if (target) rows.current.get(target.key)?.focus();
   }, [focusKey]);
 
   const onKeyDown = (event: KeyboardEvent<HTMLUListElement>) => {
