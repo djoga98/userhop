@@ -7,6 +7,12 @@ use crate::session::{
 pub const PROTOCOL_CONSOLE: u16 = 0;
 pub const PROTOCOL_RDP: u16 = 2;
 pub const SERVICES_SESSION: u32 = 0;
+pub const WINDOWS_11_FIRST_BUILD: u32 = 22000;
+
+/// Windows 11 brings the DWM system backdrop and rounded corners for frameless windows.
+pub fn is_windows_11(build: Option<u32>) -> bool {
+    build.is_some_and(|build| build >= WINDOWS_11_FIRST_BUILD)
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum WtsState {
@@ -404,6 +410,15 @@ mod tests {
             capabilities(&no_lock).lock_screen,
             Capability::unavailable(ErrorCode::PolicyDisabled)
         );
+    }
+
+    #[test]
+    fn windows_10_builds_use_the_solid_fallback() {
+        assert!(!is_windows_11(Some(19045)));
+        assert!(!is_windows_11(Some(21996)));
+        assert!(is_windows_11(Some(22000)));
+        assert!(is_windows_11(Some(26300)));
+        assert!(!is_windows_11(None));
     }
 
     #[test]

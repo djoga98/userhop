@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="../../releases/latest"><img alt="Download" src="https://img.shields.io/badge/download-latest-2563eb?style=for-the-badge&logo=github"></a>
-  <img alt="Windows 11" src="https://img.shields.io/badge/Windows%2011-supported-0f6cbd?style=for-the-badge&logo=windows11&logoColor=white">
+  <img alt="Windows 10 and 11" src="https://img.shields.io/badge/Windows%2010%2F11-supported-0f6cbd?style=for-the-badge&logo=windows&logoColor=white">
   <img alt="macOS" src="https://img.shields.io/badge/macOS-preview-1d1d1f?style=for-the-badge&logo=apple&logoColor=white">
   <img alt="Linux" src="https://img.shields.io/badge/Linux-preview-7b5cf5?style=for-the-badge&logo=linux&logoColor=white">
   <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-22a06b?style=for-the-badge">
@@ -32,7 +32,7 @@ Sharing one computer between work and personal accounts, or with family? Normall
 - **⚡ Instant.** Press <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>U</kbd> (<kbd>⌃</kbd> <kbd>⌥</kbd> <kbd>U</kbd> on a Mac) and the panel appears next to your taskbar or menu bar.
 - **👀 Honest status.** See at a glance who is *signed in*, who is *signed in remotely* and who is *not signed in*.
 - **🔐 Your OS stays in charge.** The app never asks for your password. Windows, the macOS login window or your Linux login screen does the signing in, exactly as it normally would.
-- **🪟 Native look.** Acrylic glass on Windows, vibrancy on macOS, rounded corners, light and dark themes that follow your system.
+- **🪟 Native look.** Acrylic glass on Windows 11, vibrancy on macOS, rounded corners, light and dark themes that follow your system.
 - **⌨️ Keyboard first.** Arrow keys, <kbd>Enter</kbd> and <kbd>Esc</kbd>. No mouse required.
 - **🪶 Lightweight.** A ~1.3 MB Windows installer that sits quietly in the tray and uses almost no CPU when idle.
 
@@ -67,7 +67,7 @@ When you pick another account, the app hides and hands over to the operating sys
 
 | Your system | What to download |
 | --- | --- |
-| **Windows 11** (64-bit) | `Fluent Account Switcher_x.y.z_x64-setup.exe` — installs just for you, no admin rights needed. An `.msi` is also available. |
+| **Windows 10 or 11** (64-bit) | `Fluent Account Switcher_x.y.z_x64-setup.exe` — installs just for you, no admin rights needed. An `.msi` is also available. On Windows 10 the installer fetches Microsoft Edge WebView2 if it isn't installed yet. |
 | **macOS 11 or later** (Apple Silicon and Intel) | `Fluent Account Switcher_x.y.z_universal.dmg` — open it and drag the app to **Applications**. |
 | **Ubuntu / Debian** | `Fluent Account Switcher_x.y.z_amd64.deb` |
 | **Fedora / openSUSE** | `Fluent Account Switcher-x.y.z-1.x86_64.rpm` |
@@ -129,16 +129,16 @@ Your accounts are protected by your operating system, and this app is built to k
 
 ## Platform support
 
-| | Windows 11 | macOS 11+ | Linux (GNOME, KDE and others with systemd) |
+| | Windows 10/11 | macOS 11+ | Linux (GNOME, KDE and others with systemd) |
 | --- | --- | --- | --- |
 | See accounts and sessions | ✅ | ✅ | ✅ |
 | Switch via the system sign-in screen | ✅ | ✅ macOS login window | ✅ GDM, LightDM, SDDM |
 | Global shortcut | ✅ | ✅ | ✅ on X11 · ⚠️ Wayland: add a custom shortcut instead (see FAQ) |
-| Glass background | ✅ Acrylic | ✅ Vibrancy | Solid Fluent-style background |
+| Glass background | ✅ Acrylic on Windows 11 · solid on Windows 10 | ✅ Vibrancy | Solid Fluent-style background |
 | Lock screen from the tray | ✅ | ✅ | ✅ |
 
 > [!IMPORTANT]
-> This is an early release (0.1). macOS and Linux support are previews and haven't been tested on every system yet. If something doesn't work on your setup, please open an issue with your OS version, desktop and login screen.
+> This is an early release (0.1). Windows 10, macOS and Linux haven't been tested on every system yet. If something doesn't work on your setup, please open an issue with your OS version, desktop and login screen.
 
 ## FAQ
 
@@ -166,6 +166,13 @@ On Linux with Wayland, apps can't register global shortcuts. Add a custom shortc
 ```sh
 fluent-account-switcher --toggle
 ```
+
+</details>
+
+<details>
+<summary><b>Does it work on Windows 10?</b></summary>
+
+Yes. Everything works the same as on Windows 11; the panel just uses a solid background, because the Acrylic glass effect is only available on Windows 11. Keep in mind that Microsoft no longer provides security updates for Windows 10 for most people.
 
 </details>
 

@@ -436,3 +436,17 @@ describe("macOS", () => {
     });
   });
 });
+
+describe("Windows 10", () => {
+  it("uses the solid fallback when the backend reports no native backdrop", async () => {
+    installBackend({
+      get_capabilities: () => capabilities({ platform: "windows", backdrop: "none" }),
+    });
+    const { container } = render(<App />);
+    await screen.findByRole("list", { name: "Accounts" });
+    await waitFor(() => {
+      expect(container.firstElementChild).toHaveAttribute("data-platform", "windows");
+    });
+    expect(container.firstElementChild).toHaveAttribute("data-backdrop", "none");
+  });
+});

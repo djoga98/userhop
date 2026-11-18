@@ -3,7 +3,7 @@ mod watcher;
 
 use crate::errors::{ErrorCode, SwitcherError, SwitcherResult};
 use crate::platform::windows_model::{
-    RawWindowsPolicy, RawWindowsState, assemble_snapshot, capabilities,
+    RawWindowsPolicy, RawWindowsState, assemble_snapshot, capabilities, is_windows_11,
 };
 use crate::session::{ProviderCapabilities, SessionKey, SessionProvider, SystemSnapshot};
 
@@ -70,7 +70,7 @@ impl SessionProvider for WindowsProvider {
 }
 
 pub fn supports_acrylic() -> bool {
-    native::windows_build_number().is_some_and(|build| build >= 22000)
+    is_windows_11(native::windows_build_number())
 }
 
 #[cfg(test)]

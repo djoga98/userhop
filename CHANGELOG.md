@@ -8,7 +8,7 @@
 
 - macOS support (preview): accounts from the local directory and console sessions from `utmpx`, switching through the macOS login window, lock screen, menu-bar-only app with a template icon, native vibrancy, per-user single instance, launch at sign-in via a LaunchAgent, universal `.dmg` (Apple Silicon and Intel). Default shortcut on macOS is ⌃⌥U because ⌘⇧U belongs to Finder.
 
-- Tray-resident flyout styled after the Windows 11 clipboard panel, with native Acrylic on Windows 11 and a solid Fluent-tinted fallback elsewhere; light, dark and system themes; high-contrast (`forced-colors`) styling; reduced motion.
+- Windows 10 and 11 support. The flyout is styled after the Windows 11 clipboard panel, with native Acrylic on Windows 11 and a solid Fluent-tinted fallback on Windows 10 and Linux; light, dark and system themes; high-contrast (`forced-colors`) styling; reduced motion.
 - Real account and session discovery: Windows WTS sessions plus local accounts from NetAPI (disabled and sign-in-hidden accounts excluded); Linux logind sessions plus AccountsService users.
 - Switching hands off to the OS: Windows sign-in screen via `WTSDisconnectSession` of the own console session; Linux login screen (GDM, LightDM, SDDM) after a confirmed lock of the own session; direct activation only for the user's own second session.
 - Lock screen action (tray, footer).
@@ -24,6 +24,7 @@ OS authentication remains native. The app never accepts or stores credentials, e
 
 - Windows cannot preselect the chosen account on the sign-in screen.
 - Two-user switching not yet verified by hand on Windows, macOS or Linux.
+- Windows 10: same native APIs as Windows 11 and type-checked by the same build, but not yet run on a real Windows 10 device. No Acrylic (solid background, no native shadow).
 - macOS: switching and locking use the system's private `login.framework` (the component behind the Fast User Switching menu), resolved at runtime; the build is type-checked for both Mac architectures but has not yet run on a real Mac. The app is not notarized.
 - Wayland: global shortcut unavailable (use `--toggle`); no background blur on Linux.
 - Avatars are initials only.

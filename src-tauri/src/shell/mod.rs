@@ -31,13 +31,24 @@ pub fn apply_backdrop<R: Runtime>(window: &WebviewWindow<R>, backdrop: Backdrop)
             .state(EffectState::Active)
             .radius(12.0)
             .build(),
-        Backdrop::None => return Backdrop::None,
+        Backdrop::None => return solid_chrome(window),
     };
     match window.set_effects(effects) {
         Ok(()) => backdrop,
         Err(error) => {
             tracing::warn!(%error, "native backdrop unavailable");
-            Backdrop::None
+            solid_chrome(window)
         }
     }
+}
+
+/// On Windows 10 the frameless-window shadow is drawn as a 1 px white border, so the panel's own
+/// border is used instead.
+fn solid_chrome<R: Runtime>(window: &WebviewWindow<R>) -> Backdrop {
+    if cfg!(windows)
+        && let Err(error) = window.set_shadow(false)
+    {
+        tracing::warn!(%error, "window shadow change failed");
+    }
+    Backdrop::None
 }

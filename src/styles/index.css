@@ -54,6 +54,10 @@
   --fas-radius-outer: 12px;
 }
 
+[data-platform="windows"][data-backdrop="none"] {
+  --fas-radius-outer: 8px;
+}
+
 @theme inline {
   --color-surface: var(--fas-surface-solid);
   --color-surface-tint: var(--fas-surface-tint);

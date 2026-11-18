@@ -139,6 +139,7 @@ export function App() {
     <div
       className="h-full"
       data-resolved-theme={resolvedTheme}
+      data-platform={capabilities?.platform ?? "other"}
       data-backdrop={capabilities?.backdrop ?? "none"}
       data-reduced-motion={reducedMotion ? "true" : "false"}
     >
