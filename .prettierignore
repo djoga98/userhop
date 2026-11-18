@@ -5,3 +5,4 @@ src-tauri/gen
 src/lib/bindings
 pnpm-lock.yaml
 *.md
+dist-preview

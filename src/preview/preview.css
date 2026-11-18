@@ -1,0 +1,141 @@
+html,
+body,
+#root {
+  overflow: hidden;
+}
+
+.preview-stage {
+  position: relative;
+  overflow: hidden;
+  background: #101426;
+}
+
+.preview-light {
+  background: #e8eef8;
+}
+
+.preview-glow {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  opacity: 0.85;
+}
+
+.preview-glow-a {
+  width: 620px;
+  height: 620px;
+  left: -120px;
+  top: -200px;
+  background: radial-gradient(circle, #3b6cf6 0%, transparent 70%);
+}
+
+.preview-glow-b {
+  width: 700px;
+  height: 700px;
+  right: -160px;
+  bottom: -320px;
+  background: radial-gradient(circle, #8b3df0 0%, transparent 70%);
+}
+
+.preview-glow-c {
+  width: 420px;
+  height: 420px;
+  left: 38%;
+  top: 30%;
+  background: radial-gradient(circle, #0ea5b7 0%, transparent 70%);
+  opacity: 0.55;
+}
+
+.preview-light .preview-glow-a {
+  background: radial-gradient(circle, #7aa7ff 0%, transparent 70%);
+}
+
+.preview-light .preview-glow-b {
+  background: radial-gradient(circle, #d7a8ff 0%, transparent 70%);
+}
+
+.preview-light .preview-glow-c {
+  background: radial-gradient(circle, #7fe0d6 0%, transparent 70%);
+}
+
+.preview-window {
+  position: absolute;
+  right: 48px;
+  bottom: 40px;
+  width: 388px;
+  border-radius: 8px;
+  box-shadow:
+    0 32px 64px rgba(0, 0, 0, 0.34),
+    0 2px 21px rgba(0, 0, 0, 0.22);
+}
+
+.preview-window .flyout-panel {
+  backdrop-filter: blur(44px) saturate(160%);
+}
+
+.preview-window .flyout-enter {
+  animation: none;
+}
+
+.preview-center .preview-window {
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.preview-hint {
+  position: absolute;
+  left: 72px;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 560px;
+  color: #f5f7ff;
+  font-family: var(--font-sans);
+}
+
+.preview-light .preview-hint {
+  color: #141a2e;
+}
+
+.preview-hint-title {
+  margin: 0 0 22px;
+  font-size: 40px;
+  font-weight: 650;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+.preview-keys {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 22px;
+  font-size: 22px;
+  opacity: 0.9;
+}
+
+.preview-keys kbd {
+  min-width: 34px;
+  padding: 9px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-bottom-width: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.preview-light .preview-keys kbd {
+  border-color: rgba(20, 26, 46, 0.18);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.preview-hint-sub {
+  margin: 0;
+  font-size: 18px;
+  opacity: 0.75;
+}

@@ -17,7 +17,9 @@
     "typecheck": "tsc -b --noEmit",
     "test": "vitest",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "preview:readme": "vite --open /preview/index.html",
+    "build:readme-preview": "vite build -c vite.preview.config.ts"
   },
   "dependencies": {
     "@tauri-apps/api": "2.12.5",
