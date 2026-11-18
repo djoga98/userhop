@@ -85,7 +85,7 @@ export function ShortcutField({ status, platform, pending, onChange }: ShortcutF
             setCapturing((value) => !value);
             setHint(null);
           }}
-          className={`min-w-36 rounded-md border px-2.5 py-1 text-[12.5px] transition-colors duration-100 ${
+          className={`min-w-36 rounded-md border px-2.5 py-1 text-[12.5px] transition-[color,background-color,border-color] duration-100 ${
             capturing ? "border-focus bg-raised" : "border-border bg-control hover:bg-hover"
           }`}
         >

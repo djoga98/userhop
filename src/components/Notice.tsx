@@ -33,7 +33,7 @@ export function NoticeAction({ onClick, children, primary = false }: NoticeActio
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-md px-2.5 py-1 text-[12.5px] font-medium transition-colors duration-100 ${
+      className={`rounded-md px-2.5 py-1 text-[12.5px] font-medium transition-[color,background-color,border-color] duration-100 ${
         primary
           ? "bg-accent text-on-accent hover:opacity-90"
           : "bg-control text-text hover:bg-hover"

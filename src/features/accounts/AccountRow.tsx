@@ -48,7 +48,7 @@ export function AccountRow({
       onClick={() => {
         if (!locked) onSelect(entry);
       }}
-      className={`row-button group flex w-full items-center gap-3 rounded-row px-3 text-left transition-colors duration-100 hover:bg-hover active:bg-pressed ${
+      className={`row-button group flex w-full items-center gap-3 rounded-row px-3 text-left transition-[color,background-color,border-color] duration-100 hover:bg-hover active:bg-pressed ${
         compact ? "min-h-12 py-1.5" : "min-h-[60px] py-2"
       } ${unavailable ? "text-secondary" : ""}`}
     >

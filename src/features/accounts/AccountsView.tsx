@@ -153,7 +153,7 @@ export function AccountsView({
           onClick={() => {
             if (!busy) onOpenSignIn();
           }}
-          className={`row-button mt-1.5 flex w-full items-center gap-3 rounded-row px-3 text-left text-[13.5px] transition-colors duration-100 hover:bg-hover active:bg-pressed ${
+          className={`row-button mt-1.5 flex w-full items-center gap-3 rounded-row px-3 text-left text-[13.5px] transition-[color,background-color,border-color] duration-100 hover:bg-hover active:bg-pressed ${
             compact ? "min-h-12" : "min-h-[52px]"
           }`}
         >

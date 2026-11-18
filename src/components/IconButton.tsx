@@ -23,7 +23,7 @@ export function IconButton({
       title={label}
       disabled={disabled}
       onClick={onClick}
-      className="grid size-8 shrink-0 place-items-center rounded-md text-secondary transition-colors duration-100 hover:bg-hover hover:text-text active:bg-pressed disabled:opacity-40"
+      className="grid size-8 shrink-0 place-items-center rounded-md text-secondary transition-[color,background-color,border-color] duration-100 hover:bg-hover hover:text-text active:bg-pressed disabled:opacity-40"
     >
       {children}
     </button>

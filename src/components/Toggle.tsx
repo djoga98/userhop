@@ -38,7 +38,7 @@ export function Toggle({
         onClick={() => {
           onChange(!checked);
         }}
-        className={`relative h-5 w-10 shrink-0 rounded-full border transition-colors duration-150 disabled:opacity-40 ${
+        className={`relative h-5 w-10 shrink-0 rounded-full border transition-[color,background-color,border-color] duration-150 disabled:opacity-40 ${
           checked ? "border-accent bg-accent" : "border-control-strong bg-transparent"
         }`}
       >
