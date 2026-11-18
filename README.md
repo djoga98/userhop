@@ -68,13 +68,16 @@ When you pick another account, the app hides and hands over to the operating sys
 
 | Your system | What to download |
 | --- | --- |
-| **Windows 10 or 11** (64-bit) | `Fluent Account Switcher_x.y.z_x64-setup.exe` — installs just for you, no admin rights needed. An `.msi` is also available. On Windows 10 the installer fetches Microsoft Edge WebView2 if it isn't installed yet. |
+| **Windows 10 or 11** (64-bit) | **Just for you:** `Fluent Account Switcher_x.y.z_x64-setup.exe` — no admin rights needed.<br>**For everyone on this PC:** `Fluent Account Switcher_x.y.z_x64_en-US.msi` — asks for admin rights once. On Windows 10 both fetch Microsoft Edge WebView2 if it isn't installed yet. |
 | **macOS 11 or later** (Apple Silicon and Intel) | `Fluent Account Switcher_x.y.z_universal.dmg` — open it and drag the app to **Applications**. |
 | **Ubuntu / Debian** | `Fluent Account Switcher_x.y.z_amd64.deb` |
 | **Fedora / openSUSE** | `Fluent Account Switcher-x.y.z-1.x86_64.rpm` |
 | **Any Linux** | `Fluent Account Switcher_x.y.z_amd64.AppImage` |
 
 Grab the files from the [**latest release**](../../releases/latest).
+
+> [!TIP]
+> **Which Windows installer?** Use the `.exe` to install just for yourself. Use the `.msi` if several people share the PC: the app has to be on every account to switch back, and one `.msi` installation covers all of them. *Launch at sign-in* stays a personal choice in each account's Settings. Updating or uninstalling the `.msi` version needs admin rights again and removes it for everyone. Pick one of the two, not both.
 
 > [!NOTE]
 > The downloads aren't code-signed yet.
@@ -202,7 +205,7 @@ On Windows: everyone signed in, plus the local accounts that appear on the Windo
 <details>
 <summary><b>How do I uninstall it?</b></summary>
 
-- **Windows:** Settings → Apps → Installed apps → *Fluent Account Switcher* → Uninstall. Tick *Delete the application data* to remove your preferences too.
+- **Windows:** Settings → Apps → Installed apps → *Fluent Account Switcher* → Uninstall (the all-users `.msi` version asks for admin rights). Tick *Delete the application data* to remove your preferences too.
 - **macOS:** turn off **Settings → Launch at sign-in**, quit the app from the menu bar and drag it from **Applications** to the Trash. To remove your preferences, delete `~/Library/Application Support/com.fluentaccountswitcher.desktop`.
 - **Linux:** remove the package (`sudo apt remove fluent-account-switcher` or `sudo dnf remove fluent-account-switcher`). To remove your preferences, delete `~/.config/com.fluentaccountswitcher.desktop`.
 
