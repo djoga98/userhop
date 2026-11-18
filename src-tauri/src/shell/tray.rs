@@ -40,7 +40,11 @@ pub fn install<R: Runtime>(app: &AppHandle<R>, lock_available: bool) -> tauri::R
                 flyout::toggle(tray.app_handle(), FlyoutView::List);
             }
         });
-    if let Some(icon) = app.default_window_icon() {
+    if cfg!(target_os = "macos") {
+        builder = builder
+            .icon(tauri::include_image!("icons/tray-template.png"))
+            .icon_as_template(true);
+    } else if let Some(icon) = app.default_window_icon() {
         builder = builder.icon(icon.clone());
     }
     builder.build(app)?;

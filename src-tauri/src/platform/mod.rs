@@ -1,10 +1,14 @@
 #[cfg(any(target_os = "linux", test))]
 pub mod linux_model;
+#[cfg(any(target_os = "macos", test))]
+pub mod macos_model;
 #[cfg(any(windows, test))]
 pub mod windows_model;
 
 #[cfg(target_os = "linux")]
 mod linux;
+#[cfg(target_os = "macos")]
+mod macos;
 #[cfg(windows)]
 mod windows;
 
@@ -32,7 +36,12 @@ pub fn create_provider() -> Arc<dyn SessionProvider> {
     Arc::new(linux::LinuxProvider::new())
 }
 
-#[cfg(not(any(windows, target_os = "linux")))]
+#[cfg(target_os = "macos")]
+pub fn create_provider() -> Arc<dyn SessionProvider> {
+    Arc::new(macos::MacProvider)
+}
+
+#[cfg(not(any(windows, target_os = "linux", target_os = "macos")))]
 pub fn create_provider() -> Arc<dyn SessionProvider> {
     Arc::new(unsupported::UnsupportedProvider)
 }
@@ -43,7 +52,10 @@ pub use windows::spawn_session_watcher;
 #[cfg(target_os = "linux")]
 pub use linux::spawn_session_watcher;
 
-#[cfg(not(any(windows, target_os = "linux")))]
+#[cfg(target_os = "macos")]
+pub use macos::spawn_session_watcher;
+
+#[cfg(not(any(windows, target_os = "linux", target_os = "macos")))]
 pub fn spawn_session_watcher(_sink: EventSink) {}
 
 pub const fn platform() -> Platform {
@@ -51,6 +63,8 @@ pub const fn platform() -> Platform {
         Platform::Windows
     } else if cfg!(target_os = "linux") {
         Platform::Linux
+    } else if cfg!(target_os = "macos") {
+        Platform::Macos
     } else {
         Platform::Other
     }
@@ -61,6 +75,9 @@ pub fn native_backdrop_supported() -> Backdrop {
     if windows::supports_acrylic() {
         return Backdrop::Acrylic;
     }
+    if cfg!(target_os = "macos") {
+        return Backdrop::Vibrancy;
+    }
     Backdrop::None
 }
 
@@ -70,7 +87,7 @@ pub fn is_wayland_session() -> bool {
             || std::env::var_os("WAYLAND_DISPLAY").is_some())
 }
 
-#[cfg(not(any(windows, target_os = "linux")))]
+#[cfg(not(any(windows, target_os = "linux", target_os = "macos")))]
 mod unsupported {
     use crate::errors::{ErrorCode, SwitcherError, SwitcherResult};
     use crate::models::{Capability, SignInSurface};

@@ -216,9 +216,10 @@ function EndCard({ t }: { t: number }) {
       >
         <img src={iconUrl} alt="" className="video-end-icon" />
         <p className="video-end-title">Fluent Account Switcher</p>
-        <p className="video-end-body">Every account on your PC, one keystroke away.</p>
+        <p className="video-end-body">Every account on your computer, one keystroke away.</p>
         <p className="video-end-pills" style={{ opacity: pills }}>
           <span>Windows 11</span>
+          <span>macOS</span>
           <span>Linux</span>
           <span>No passwords stored</span>
           <span>Free &amp; open source</span>

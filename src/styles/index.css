@@ -50,6 +50,10 @@
   --fas-radius-outer: 8px;
 }
 
+[data-backdrop="vibrancy"] {
+  --fas-radius-outer: 12px;
+}
+
 @theme inline {
   --color-surface: var(--fas-surface-solid);
   --color-surface-tint: var(--fas-surface-tint);
@@ -99,7 +103,8 @@ body {
   border-radius: var(--fas-radius-outer);
 }
 
-[data-backdrop="acrylic"] .flyout-panel {
+[data-backdrop="acrylic"] .flyout-panel,
+[data-backdrop="vibrancy"] .flyout-panel {
   background: var(--fas-surface-tint);
   border-color: transparent;
 }
@@ -175,7 +180,8 @@ body {
 
 @media (forced-colors: active) {
   .flyout-panel,
-  [data-backdrop="acrylic"] .flyout-panel {
+  [data-backdrop="acrylic"] .flyout-panel,
+  [data-backdrop="vibrancy"] .flyout-panel {
     background: Canvas;
     border: 1px solid CanvasText;
     forced-color-adjust: none;

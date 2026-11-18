@@ -71,6 +71,7 @@ export function SettingsView({ controller, platform }: SettingsViewProps) {
       <Section title="Keyboard">
         <ShortcutField
           status={settings.shortcut}
+          defaultAccelerator={settings.defaultShortcut}
           platform={platform}
           pending={pending}
           onChange={controller.setShortcut}

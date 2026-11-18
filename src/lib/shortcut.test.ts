@@ -39,4 +39,10 @@ describe("formatAccelerator", () => {
     expect(formatAccelerator("Shift+Super+KeyU", "linux")).toBe("Super + Shift + U");
     expect(formatAccelerator("Control+Alt+Digit5", "windows")).toBe("Ctrl + Alt + 5");
   });
+
+  it("uses macOS modifier symbols in Apple's order", () => {
+    expect(formatAccelerator("Control+Alt+KeyU", "macos")).toBe("⌃⌥U");
+    expect(formatAccelerator("Shift+Super+KeyK", "macos")).toBe("⇧⌘K");
+    expect(formatAccelerator("Control+Alt+Shift+Super+F5", "macos")).toBe("⌃⌥⇧⌘F5");
+  });
 });

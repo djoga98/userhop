@@ -3,4 +3,4 @@ import type { LaunchAtSignIn } from "./LaunchAtSignIn";
 import type { Preferences } from "./Preferences";
 import type { ShortcutStatus } from "./ShortcutStatus";
 
-export type SettingsView = { preferences: Preferences, shortcut: ShortcutStatus, launchAtSignIn: LaunchAtSignIn, version: string, };
+export type SettingsView = { preferences: Preferences, shortcut: ShortcutStatus, launchAtSignIn: LaunchAtSignIn, defaultShortcut: string, version: string, };

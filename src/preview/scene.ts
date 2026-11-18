@@ -77,6 +77,7 @@ export function sampleSettings(scene: Scene): SettingsView {
     preferences: { theme: scene.theme, compactRows: false, reduceMotion: false },
     shortcut: { accelerator: "Shift+Super+KeyU", state: "registered" },
     launchAtSignIn: { capability: { status: "available" }, enabled: true },
+    defaultShortcut: "Shift+Super+KeyU",
     version: "0.1.0",
   };
 }

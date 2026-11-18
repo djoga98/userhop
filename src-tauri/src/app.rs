@@ -13,7 +13,8 @@ use crate::models::{
 use crate::platform::{self, SessionEvent};
 use crate::session::service::SessionService;
 use crate::settings::{
-    LaunchAtSignIn, Preferences, SettingsStore, SettingsView, ShortcutState, ShortcutStatus,
+    DEFAULT_SHORTCUT, LaunchAtSignIn, Preferences, SettingsStore, SettingsView, ShortcutState,
+    ShortcutStatus,
 };
 use crate::shell::{self, flyout, shortcut, tray};
 
@@ -141,6 +142,7 @@ fn settings_view(app: &AppHandle) -> SwitcherResult<SettingsView> {
         preferences,
         shortcut,
         launch_at_sign_in,
+        default_shortcut: DEFAULT_SHORTCUT.to_owned(),
         version: app.package_info().version.to_string(),
     })
 }
@@ -255,7 +257,11 @@ fn on_session_event(app: &AppHandle, event: SessionEvent) {
 }
 
 fn setup(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
+    #[cfg(target_os = "macos")]
+    app.set_activation_policy(tauri::ActivationPolicy::Accessory);
     let handle = app.handle().clone();
+    #[cfg(target_os = "macos")]
+    shell::single_instance_macos::listen(&handle, handle_args);
     let settings = SettingsStore::load(handle.path().app_config_dir().ok());
     let preferences = settings.get().preferences;
     let stored_shortcut = settings.get().shortcut.clone();
@@ -304,10 +310,16 @@ fn setup(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
 }
 
 pub fn run() {
-    tauri::Builder::default()
-        .plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
-            handle_args(app, &args);
-        }))
+    #[cfg(target_os = "macos")]
+    if shell::single_instance_macos::forward_to_running_instance() {
+        return;
+    }
+    let builder = tauri::Builder::default();
+    #[cfg(not(target_os = "macos"))]
+    let builder = builder.plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
+        handle_args(app, &args);
+    }));
+    builder
         .plugin(
             tauri_plugin_global_shortcut::Builder::new()
                 .with_handler(|app, _shortcut, event| {

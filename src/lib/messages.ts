@@ -65,11 +65,21 @@ export function handoffDescription(surface: SignInSurface): string {
     case "gdm":
     case "freedesktop-display-manager":
       return "Locks this session and opens the login screen. Your apps keep running.";
+    case "macos-login-window":
+      return "Opens the macOS login window. Your apps keep running.";
     case "none":
       return "System sign-in isn't available here.";
   }
 }
 
 export function superKeyName(platform: Platform): string {
-  return platform === "windows" ? "Win" : "Super";
+  switch (platform) {
+    case "windows":
+      return "Win";
+    case "macos":
+      return "⌘";
+    case "linux":
+    case "other":
+      return "Super";
+  }
 }

@@ -410,3 +410,29 @@ describe("focus continuity", () => {
     });
   });
 });
+
+describe("macOS", () => {
+  it("shows the login window hint, Mac shortcut symbols and the platform default", async () => {
+    const backend = installBackend({
+      get_capabilities: () =>
+        capabilities({
+          platform: "macos",
+          signInSurface: "macos-login-window",
+          backdrop: "vibrancy",
+        }),
+      get_settings: () =>
+        settingsView({
+          shortcut: { accelerator: "Shift+Super+KeyK", state: "registered" },
+          defaultShortcut: "Control+Alt+KeyU",
+        }),
+    });
+    const user = await renderApp();
+    expect(row(/Second Tester/)).toHaveAccessibleDescription(/macOS login window/);
+    expect(screen.getByText("⇧⌘K")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Settings" }));
+    await user.click(await screen.findByRole("button", { name: "Reset to default" }));
+    await waitFor(() => {
+      expect(backend.last("set_shortcut")?.args).toEqual({ accelerator: "Control+Alt+KeyU" });
+    });
+  });
+});

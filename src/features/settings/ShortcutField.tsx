@@ -6,10 +6,9 @@ import type { ShortcutStatus } from "../../lib/bindings/ShortcutStatus";
 import { errorMessages } from "../../lib/messages";
 import { captureAccelerator, formatAccelerator } from "../../lib/shortcut";
 
-const DEFAULT_SHORTCUT = "Shift+Super+KeyU";
-
 type ShortcutFieldProps = {
   status: ShortcutStatus;
+  defaultAccelerator: string;
   platform: Platform;
   pending: boolean;
   onChange: (accelerator: string | null) => Promise<boolean>;
@@ -32,7 +31,13 @@ function statusText(status: ShortcutStatus, platform: Platform): string {
   }
 }
 
-export function ShortcutField({ status, platform, pending, onChange }: ShortcutFieldProps) {
+export function ShortcutField({
+  status,
+  defaultAccelerator,
+  platform,
+  pending,
+  onChange,
+}: ShortcutFieldProps) {
   const [capturing, setCapturing] = useState(false);
   const [hint, setHint] = useState<string | null>(null);
 
@@ -102,8 +107,8 @@ export function ShortcutField({ status, platform, pending, onChange }: ShortcutF
       <div className="flex gap-2">
         <button
           type="button"
-          disabled={pending || status.accelerator === DEFAULT_SHORTCUT}
-          onClick={() => void onChange(DEFAULT_SHORTCUT)}
+          disabled={pending || status.accelerator === defaultAccelerator}
+          onClick={() => void onChange(defaultAccelerator)}
           className="rounded-md bg-control px-2.5 py-1 text-[12.5px] hover:bg-hover disabled:opacity-40"
         >
           Reset to default

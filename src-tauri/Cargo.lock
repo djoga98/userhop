@@ -1069,6 +1069,11 @@ dependencies = [
 name = "fluent-account-switcher"
 version = "0.1.0"
 dependencies = [
+ "block2",
+ "libc",
+ "objc2-app-kit",
+ "objc2-foundation",
+ "plist",
  "rustix",
  "serde",
  "serde_json",

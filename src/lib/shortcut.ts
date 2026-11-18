@@ -64,9 +64,25 @@ function keyLabel(code: string): string {
   return KEY_LABELS[code] ?? code;
 }
 
+const MAC_SYMBOLS: Record<Modifier, string> = {
+  Control: "⌃",
+  Alt: "⌥",
+  Shift: "⇧",
+  Super: "⌘",
+};
+
 export function formatAccelerator(accelerator: string, platform: Platform): string {
   const parts = accelerator.split("+");
   const key = parts.pop() ?? "";
+  if (platform === "macos") {
+    const present = new Set(parts);
+    const ordered: Modifier[] = ["Control", "Alt", "Shift", "Super"];
+    return ordered
+      .filter((m) => present.has(m))
+      .map((m) => MAC_SYMBOLS[m])
+      .concat(keyLabel(key))
+      .join("");
+  }
   const labels: Record<Modifier, string> = {
     Control: "Ctrl",
     Alt: "Alt",

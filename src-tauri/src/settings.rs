@@ -8,7 +8,12 @@ use crate::errors::{ErrorCode, SwitcherError, SwitcherResult};
 use crate::models::Capability;
 
 pub const SCHEMA_VERSION: u32 = 1;
-pub const DEFAULT_SHORTCUT: &str = "Shift+Super+KeyU";
+/// Command+Shift+U is taken by Finder on macOS, so the Mac default avoids it.
+pub const DEFAULT_SHORTCUT: &str = if cfg!(target_os = "macos") {
+    "Control+Alt+KeyU"
+} else {
+    "Shift+Super+KeyU"
+};
 const MAX_FILE_BYTES: u64 = 16 * 1024;
 const FILE_NAME: &str = "settings.json";
 
@@ -89,6 +94,7 @@ pub struct SettingsView {
     pub preferences: Preferences,
     pub shortcut: ShortcutStatus,
     pub launch_at_sign_in: LaunchAtSignIn,
+    pub default_shortcut: String,
     pub version: String,
 }
 

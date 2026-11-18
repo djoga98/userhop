@@ -127,6 +127,7 @@ impl Capability {
 pub enum Platform {
     Windows,
     Linux,
+    Macos,
     Other,
 }
 
@@ -140,6 +141,8 @@ pub enum SignInSurface {
     Gdm,
     #[cfg_attr(not(any(target_os = "linux", test)), allow(dead_code))]
     FreedesktopDisplayManager,
+    #[cfg_attr(not(any(target_os = "macos", test)), allow(dead_code))]
+    MacosLoginWindow,
     None,
 }
 
@@ -147,7 +150,10 @@ pub enum SignInSurface {
 #[cfg_attr(test, derive(ts_rs::TS), ts(export))]
 #[serde(rename_all = "kebab-case")]
 pub enum Backdrop {
+    #[cfg_attr(not(windows), allow(dead_code))]
     Acrylic,
+    #[cfg_attr(not(target_os = "macos"), allow(dead_code))]
+    Vibrancy,
     None,
 }
 

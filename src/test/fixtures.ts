@@ -70,6 +70,7 @@ export function settingsView(overrides: Partial<SettingsView> = {}): SettingsVie
     preferences: { theme: "system", compactRows: false, reduceMotion: false },
     shortcut: { accelerator: "Shift+Super+KeyU", state: "registered" },
     launchAtSignIn: { capability: { status: "available" }, enabled: false },
+    defaultShortcut: "Shift+Super+KeyU",
     version: "0.1.0",
     ...overrides,
   };
