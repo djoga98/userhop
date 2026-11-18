@@ -53,7 +53,7 @@ When you pick another account, the app hides and hands over to the operating sys
 
 <picture>
   <source media="(prefers-color-scheme: light)" srcset="assets/readme/hero-light.webp">
-  <img alt="The switcher flyout listing four accounts, with the second one focused and ready to switch" src="assets/readme/hero-dark.webp" width="100%">
+  <img alt="The switcher flyout listing four accounts; Sam Rivera is marked Last used and selected, ready to switch back" src="assets/readme/hero-dark.webp" width="100%">
 </picture>
 
 <table>

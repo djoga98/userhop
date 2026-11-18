@@ -12,6 +12,7 @@ export type Scene = {
   notice: boolean;
   center: boolean;
   hint: boolean;
+  recent: boolean;
   width: number;
   height: number;
 };
@@ -26,6 +27,7 @@ export function readScene(search: string): Scene {
     notice: params.get("notice") === "1",
     center: params.get("center") === "1",
     hint: params.get("hint") === "1",
+    recent: params.get("recent") === "1",
     width: number("w", 1200),
     height: number("h", 640),
   };
@@ -61,6 +63,17 @@ export const sampleSnapshot: AccountSnapshot = {
     account("sample:4", "Mia Chen", "mia", "not-signed-in"),
   ],
 };
+
+/** Shows the state after returning from Sam's account: listed first and marked as last used. */
+export function sampleSnapshotFor(scene: Scene): AccountSnapshot {
+  if (!scene.recent) return sampleSnapshot;
+  return {
+    ...sampleSnapshot,
+    entries: sampleSnapshot.entries.map((entry) =>
+      entry.accountId === "sample:2" ? { ...entry, recent: true } : entry,
+    ),
+  };
+}
 
 export const sampleCapabilities: PlatformCapabilities = {
   platform: "windows",

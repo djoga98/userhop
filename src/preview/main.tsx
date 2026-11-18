@@ -6,7 +6,7 @@ import "../styles/index.css";
 import "./preview.css";
 import "./video.css";
 import { heightStore } from "./heightStore";
-import { readScene, sampleCapabilities, sampleSettings, sampleSnapshot } from "./scene";
+import { readScene, sampleCapabilities, sampleSettings, sampleSnapshotFor } from "./scene";
 import { Stage } from "./Stage";
 import { VideoStage } from "./VideoStage";
 
@@ -21,7 +21,7 @@ mockIPC(
     const args = (payload ?? {}) as Record<string, unknown>;
     switch (command) {
       case "get_accounts":
-        return sampleSnapshot;
+        return sampleSnapshotFor(scene);
       case "get_capabilities":
         return sampleCapabilities;
       case "get_settings":
