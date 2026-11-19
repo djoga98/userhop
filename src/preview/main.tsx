@@ -6,7 +6,7 @@ import "../styles/index.css";
 import "./preview.css";
 import "./video.css";
 import { heightStore } from "./heightStore";
-import { readScene, sampleCapabilities, sampleSettings, sampleSnapshotFor } from "./scene";
+import { readScene, sampleCapabilitiesFor, sampleSettings, sampleSnapshotFor } from "./scene";
 import { Stage } from "./Stage";
 import { VideoStage } from "./VideoStage";
 
@@ -23,7 +23,7 @@ mockIPC(
       case "get_accounts":
         return sampleSnapshotFor(scene);
       case "get_capabilities":
-        return sampleCapabilities;
+        return sampleCapabilitiesFor(scene);
       case "get_settings":
         return sampleSettings(scene);
       case "save_settings":

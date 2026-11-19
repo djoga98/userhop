@@ -66,16 +66,23 @@ export const sampleSnapshot: AccountSnapshot = {
 
 /** Shows the state after returning from Sam's account: listed first and marked as last used. */
 export function sampleSnapshotFor(scene: Scene): AccountSnapshot {
-  if (!scene.recent) return sampleSnapshot;
   return {
     ...sampleSnapshot,
-    entries: sampleSnapshot.entries.map((entry) =>
-      entry.accountId === "sample:2" ? { ...entry, recent: true } : entry,
-    ),
+    entries: sampleSnapshot.entries.map((entry) => {
+      const recent = scene.recent && entry.accountId === "sample:2";
+      if (scene.notice && !entry.isCurrentUser) {
+        return {
+          ...entry,
+          recent,
+          availability: { mode: "unavailable", reason: "remote_session" },
+        };
+      }
+      return recent ? { ...entry, recent } : entry;
+    }),
   };
 }
 
-export const sampleCapabilities: PlatformCapabilities = {
+const sampleCapabilities: PlatformCapabilities = {
   platform: "windows",
   sessionDiscovery: { status: "available" },
   accountDirectory: { status: "available" },
@@ -85,6 +92,15 @@ export const sampleCapabilities: PlatformCapabilities = {
   lockScreen: { status: "available" },
   backdrop: "acrylic",
 };
+
+/** A remote session reports system sign-in as unavailable, like the Windows provider. */
+export function sampleCapabilitiesFor(scene: Scene): PlatformCapabilities {
+  if (!scene.notice) return sampleCapabilities;
+  return {
+    ...sampleCapabilities,
+    systemSignIn: { status: "unavailable", reason: "remote_session" },
+  };
+}
 
 export function sampleSettings(scene: Scene): SettingsView {
   return {
