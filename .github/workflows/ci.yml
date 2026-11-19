@@ -18,11 +18,41 @@ env:
   LINUX_PACKAGES: >-
     libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev
     libssl-dev build-essential file patchelf
+  # Retry and drop stalled mirror connections instead of waiting on them.
+  APT_OPTIONS: -o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30
 
 jobs:
+  changes:
+    name: Detect app changes
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      app: ${{ steps.diff.outputs.app }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - id: diff
+        name: Skip the slow app jobs when only the website or docs changed
+        shell: bash
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          app=true
+          if [ "$EVENT" != "workflow_dispatch" ] && git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
+            changed=$(git diff --name-only "$BASE" "$GITHUB_SHA")
+            echo "$changed"
+            if ! grep -qvE '^(site/|demo/|src/demo/|src/preview/|assets/readme/|docs/|scripts/(build-site|record-readme-video)\.mjs$|vite\.(demo|preview)\.config\.ts$|\.github/workflows/pages\.yml$|README\.md$|CHANGELOG\.md$|LICENSE$)' <<<"$changed"; then
+              app=false
+            fi
+          fi
+          echo "app=$app" | tee -a "$GITHUB_OUTPUT"
+
   frontend:
     name: Frontend checks
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
@@ -41,6 +71,9 @@ jobs:
 
   rust:
     name: Rust checks (${{ matrix.os }})
+    needs: changes
+    if: needs.changes.outputs.app == 'true'
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
@@ -53,7 +86,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install Linux prerequisites
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y $LINUX_PACKAGES
+        run: sudo apt-get $APT_OPTIONS update && sudo apt-get $APT_OPTIONS install -y $LINUX_PACKAGES
       - uses: dtolnay/rust-toolchain@39008827e6b4319a349e9a42dfc90579dd25f1ca # stable
         with:
           toolchain: stable
@@ -78,7 +111,9 @@ jobs:
 
   bundle:
     name: Bundle (${{ matrix.os }})
-    needs: [frontend, rust]
+    needs: [changes, frontend, rust]
+    if: needs.changes.outputs.app == 'true'
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -97,7 +132,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install Linux prerequisites
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y $LINUX_PACKAGES
+        run: sudo apt-get $APT_OPTIONS update && sudo apt-get $APT_OPTIONS install -y $LINUX_PACKAGES
       - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
