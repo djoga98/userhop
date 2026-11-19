@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 — unreleased (2026-11-18)
+## 0.1.0 — 2026-11-19
 
 **Verified targets:** An earlier NSIS build passed a manual two-account test with the lock-based handoff on Windows 11 Pro build 26300 x64, including two monitors. The new broker lookup matched another account by SID in a read-only test on Windows 11 x64 (broker version 10.0.26100.9818). Live preselection and the display layout after switching remain open. Linux build and logind enumeration were verified on Ubuntu 24.04 under WSL2 only.
 
