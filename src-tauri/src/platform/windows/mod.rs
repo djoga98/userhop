@@ -1,11 +1,14 @@
 mod native;
+mod user_tile;
 mod watcher;
 
 use crate::errors::{ErrorCode, SwitcherError, SwitcherResult};
 use crate::platform::windows_model::{
     RawWindowsPolicy, RawWindowsState, assemble_snapshot, capabilities, is_windows_11,
 };
-use crate::session::{ProviderCapabilities, SessionKey, SessionProvider, SystemSnapshot};
+use crate::session::{
+    AccountKey, ProviderCapabilities, SessionKey, SessionProvider, SystemSnapshot,
+};
 
 pub use watcher::spawn_session_watcher;
 
@@ -57,12 +60,19 @@ impl SessionProvider for WindowsProvider {
         Err(SwitcherError::new(ErrorCode::UnsupportedPlatform))
     }
 
-    /// Locking keeps the console session attached to its displays, unlike `WTSDisconnectSession`,
-    /// which tears down the display topology and rearranges desktops on multi-monitor setups.
-    /// The sign-in screen then lists the other accounts and Windows performs the real switch.
+    fn open_system_sign_in_for(&self, account: &AccountKey) -> SwitcherResult<()> {
+        if !self.capabilities().system_sign_in.is_available() {
+            return Err(ErrorCode::SecureHandoffUnavailable.into());
+        }
+        if user_tile::try_switch_to(account)? {
+            return Ok(());
+        }
+        native::lock_workstation()
+    }
+
     fn open_system_sign_in(&self) -> SwitcherResult<()> {
-        if !capabilities(&Self::policy()).system_sign_in.is_available() {
-            return Err(SwitcherError::new(ErrorCode::SecureHandoffUnavailable));
+        if !self.capabilities().system_sign_in.is_available() {
+            return Err(ErrorCode::SecureHandoffUnavailable.into());
         }
         native::lock_workstation()
     }

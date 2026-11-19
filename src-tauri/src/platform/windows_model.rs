@@ -171,7 +171,7 @@ pub fn assemble_snapshot(raw: &RawWindowsState) -> Option<SystemSnapshot> {
     })
 }
 
-/// Switch-user is the OS sign-in screen reached by locking the own console session.
+/// Account switching through the system sign-in screen is available on the local console.
 pub fn capabilities(policy: &RawWindowsPolicy) -> ProviderCapabilities {
     let on_console = policy.console_session_id == Some(policy.own_session_id)
         && policy.own_protocol.is_none_or(|p| p == PROTOCOL_CONSOLE);

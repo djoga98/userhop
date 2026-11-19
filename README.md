@@ -22,7 +22,7 @@
     <img alt="Demo: pressing Win + Shift + U opens the flyout, the arrow key selects Sam Rivera, Enter hands off to the system sign-in screen, then Settings switches the app to the light theme" src="assets/readme/demo.webp" width="100%">
   </a>
   <br>
-  <sub>▶ <a href="assets/readme/demo.mp4"><b>Watch in HD</b></a> (MP4, 1080p, 15 s)</sub>
+  <sub>▶ <a href="assets/readme/demo.mp4"><b>Watch the illustrated demo in HD</b></a> (MP4, 1080p, 15 s)</sub>
 </p>
 
 ## Why you'll like it
@@ -45,7 +45,7 @@ Sharing one computer between work and personal accounts, or with family? Normall
 
 When you pick another account, the app hides and hands over to the operating system:
 
-- **On Windows** the PC locks, just like pressing <kbd>Win</kbd> + <kbd>L</kbd>, and the Windows sign-in screen appears. Pick the account in the bottom-left corner and sign in; Windows then switches for real. Your own session and everything you had open keep running, and nothing is rearranged on your monitors when you come back.
+- **On Windows** the app asks the Start menu's account broker to open the sign-in screen for the selected account. If the broker or account is unavailable, the PC locks. Pick the account in the bottom-left corner if prompted, then sign in. Your apps keep running in your own session.
 - **On macOS** the familiar macOS login window appears, just like when you use the Fast User Switching menu. Your session keeps running and needs your password to return.
 - **On Linux** the app locks your session first, then opens your login screen (GDM, LightDM or SDDM).
 
@@ -148,9 +148,9 @@ Your accounts are protected by your operating system, and this app is built to k
 ## FAQ
 
 <details>
-<summary><b>Why doesn't Windows jump straight into the account I picked?</b></summary>
+<summary><b>Why do I sometimes have to pick the account again on Windows?</b></summary>
 
-Windows doesn't let apps sign anyone in or preselect an account on the sign-in screen, and that's a good thing. So the app locks the PC and Windows shows its sign-in screen: click the account you want in the bottom-left corner and sign in as usual. Your own session keeps running in the background.
+Account preselection depends on an internal Windows component. If the component is unavailable or its account list excludes the selected account, the app locks the PC and lets you choose the account on the Windows sign-in screen. Windows handles authentication in either case.
 
 </details>
 
@@ -177,7 +177,7 @@ fluent-account-switcher --toggle
 <details>
 <summary><b>Does it work on Windows 10?</b></summary>
 
-Yes. Everything works the same as on Windows 11; the panel just uses a solid background, because the Acrylic glass effect is only available on Windows 11. Keep in mind that Microsoft no longer provides security updates for Windows 10 for most people.
+The app supports Windows 10 with a solid panel background. It uses the Start menu's account broker when available and falls back to the standard Windows sign-in screen. The targeted handoff still needs a live Windows 10 test. Keep in mind that Microsoft no longer provides security updates for Windows 10 for most people.
 
 </details>
 
@@ -247,7 +247,7 @@ cargo test -- --ignored native_   # read-only check against your real OS session
 
 **Command-line options:** `--toggle` (show or hide the running instance), `--hidden` (start in the tray).
 
-The screenshots and the demo video in this README are rendered from the app's own components with sample accounts (`pnpm preview:readme`, add `?video=1` for the animated timeline). To re-record the video, build the preview and capture it frame by frame with any Chromium-based browser, then encode with ffmpeg:
+The screenshots and demo use the app's own components with sample accounts (`pnpm preview:readme`, add `?video=1` for the animated timeline). The sign-in scene illustrates the OS handoff. To re-record the video, build the preview and capture it frame by frame with any Chromium-based browser, then encode with ffmpeg:
 
 ```sh
 pnpm build:readme-preview

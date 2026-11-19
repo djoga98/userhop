@@ -35,7 +35,7 @@ describe("account list", () => {
     expect(items[0]).toHaveAccessibleName("Primary Tester (primary)");
     expect(items[0]).toHaveAccessibleDescription(/Current session/);
     expect(row(/Second Tester/)).toHaveAccessibleDescription(
-      /Signed in.*Switch.*Windows locks this PC/,
+      /Signed in.*Switch.*Windows opens its sign-in screen/,
     );
     expect(row(/Third Tester/)).toHaveAccessibleDescription(/Not signed in.*Open sign-in/);
     expect(row(/Third Tester/)).toHaveAttribute("title", expect.stringContaining("Very Long"));
@@ -476,10 +476,12 @@ describe("flyout reveal handshake", () => {
     expect(backend.count("fit_flyout")).toBeGreaterThan(fits);
   });
 
-  it("explains that Windows locks first and the account is picked on the sign-in screen", async () => {
+  it("explains that Windows can preselect the account", async () => {
     installBackend();
     await renderApp();
-    expect(screen.getByText(/Windows locks this PC.*bottom-left corner/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Windows preselects the account when available.*bottom-left corner/),
+    ).toBeInTheDocument();
   });
 
   it("skips the CSS fade when the OS draws a native backdrop", async () => {

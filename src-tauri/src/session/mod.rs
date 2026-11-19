@@ -58,6 +58,11 @@ pub trait SessionProvider: Send + Sync {
     /// Only called after policy confirmed the target belongs to the current OS user.
     fn activate_own_session(&self, session: &SessionKey) -> SwitcherResult<()>;
 
+    /// Called only for an account validated against the current OS snapshot.
+    fn open_system_sign_in_for(&self, _account: &AccountKey) -> SwitcherResult<()> {
+        self.open_system_sign_in()
+    }
+
     fn open_system_sign_in(&self) -> SwitcherResult<()>;
 
     fn lock_current_session(&self) -> SwitcherResult<()>;

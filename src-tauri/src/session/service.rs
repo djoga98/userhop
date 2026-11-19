@@ -95,7 +95,7 @@ impl SessionService {
                     .find(|e| e.account_id == validated.account.0)
                     .map(|e| e.display_name);
                 before_handoff();
-                self.provider.open_system_sign_in()?;
+                self.provider.open_system_sign_in_for(&validated.account)?;
                 self.remember(label.map(|label| RecentTarget {
                     account: validated.account.clone(),
                     label,
@@ -197,7 +197,19 @@ mod tests {
             }
         );
         assert_eq!(hidden.load(Ordering::SeqCst), 1);
+        assert_eq!(
+            provider.calls(),
+            vec![Call::SignInFor(AccountKey("t:2".into()))]
+        );
+    }
+
+    #[test]
+    fn generic_sign_in_does_not_select_an_account() {
+        let provider = Arc::new(FakeProvider::new(snapshot()));
+        let service = SessionService::new(provider.clone());
+        service.open_system_sign_in(&|| {}).expect("sign-in");
         assert_eq!(provider.calls(), vec![Call::SignIn]);
+        assert!(service.recent().is_none());
     }
 
     #[test]
@@ -234,7 +246,10 @@ mod tests {
         assert_eq!(second.unwrap_err().code, ErrorCode::Busy);
         release_tx.send(()).expect("release");
         assert!(first.join().expect("join").is_ok());
-        assert_eq!(provider.calls(), vec![Call::SignIn]);
+        assert_eq!(
+            provider.calls(),
+            vec![Call::SignInFor(AccountKey("t:2".into()))]
+        );
         assert!(service.request_switch(&request("t:1"), &|| {}).is_ok());
     }
 
@@ -246,7 +261,10 @@ mod tests {
         let service = SessionService::new(provider.clone());
         let err = service.request_switch(&request("t:2"), &|| {}).unwrap_err();
         assert_eq!(err.code, ErrorCode::PermissionDenied);
-        assert_eq!(provider.calls(), vec![Call::SignIn]);
+        assert_eq!(
+            provider.calls(),
+            vec![Call::SignInFor(AccountKey("t:2".into()))]
+        );
     }
 
     #[test]
@@ -303,7 +321,13 @@ mod tests {
         let view = service.accounts().expect("accounts");
         assert!(view.entries[1].recent);
         service.switch_to_recent(&|| {}).expect("switch back");
-        assert_eq!(provider.calls(), vec![Call::SignIn, Call::SignIn]);
+        assert_eq!(
+            provider.calls(),
+            vec![
+                Call::SignInFor(recent.account.clone()),
+                Call::SignInFor(recent.account)
+            ]
+        );
     }
 
     #[test]
@@ -339,7 +363,10 @@ mod tests {
             service.switch_to_recent(&|| {}).unwrap_err().code,
             ErrorCode::SessionNotFound
         );
-        assert_eq!(provider.calls(), vec![Call::SignIn]);
+        assert_eq!(
+            provider.calls(),
+            vec![Call::SignInFor(AccountKey("t:2".into()))]
+        );
     }
 
     #[test]

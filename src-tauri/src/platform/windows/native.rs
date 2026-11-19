@@ -84,7 +84,7 @@ fn read_wide(value: PWSTR) -> Option<String> {
     String::from_utf16(units).ok().filter(|s| !s.is_empty())
 }
 
-fn map_error(api: &'static str, error: &windows::core::Error) -> SwitcherError {
+pub(super) fn map_error(api: &'static str, error: &windows::core::Error) -> SwitcherError {
     if error.code() == ERROR_ACCESS_DENIED.to_hresult() {
         SwitcherError::with_log(ErrorCode::PermissionDenied, api, error)
     } else {

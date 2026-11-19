@@ -2,7 +2,7 @@
 
 ## 0.1.0 — unreleased (2026-11-18)
 
-**Verified targets:** Windows 11 Pro build 26300 x64: read-only session enumeration test, desktop smoke tests, and a manual two-account test on two monitors (switching through the sign-in screen, returning without rearranged icons, flicker-free flyout, full-height Settings, switching back to the last account) with the installed NSIS build. Linux build and logind enumeration verified on Ubuntu 24.04 under WSL2 only; no real GNOME/KDE desktop tested yet.
+**Verified targets:** An earlier NSIS build passed a manual two-account test with the lock-based handoff on Windows 11 Pro build 26300 x64, including two monitors. The new broker lookup matched another account by SID in a read-only test on Windows 11 x64 (broker version 10.0.26100.9818). Live preselection and the display layout after switching remain open. Linux build and logind enumeration were verified on Ubuntu 24.04 under WSL2 only.
 
 **Features**
 
@@ -10,7 +10,7 @@
 
 - Windows 10 and 11 support. The flyout is styled after the Windows 11 clipboard panel, with native Acrylic on Windows 11 and a solid Fluent-tinted fallback on Windows 10 and Linux; light, dark and system themes; high-contrast (`forced-colors`) styling; reduced motion.
 - Real account and session discovery: Windows WTS sessions plus local accounts from NetAPI (disabled and sign-in-hidden accounts excluded); Linux logind sessions plus AccountsService users.
-- Switching hands off to the OS: on Windows the PC is locked with `LockWorkStation` and the person picks the account on the Windows sign-in screen (the session stays attached to its displays); Linux login screen (GDM, LightDM, SDDM) after a confirmed lock of the own session; macOS login window; direct activation only for the user's own second session.
+- Switching hands off to the OS. Windows requests sign-in for the selected account through the Start menu's account broker and falls back to `LockWorkStation` when it cannot prepare the targeted handoff. Linux opens the login screen (GDM, LightDM, SDDM) after a confirmed session lock. macOS opens the login window. Direct session activation remains available for the user's own second session where supported.
 - Lock screen action (tray, footer).
 - Switch back to the last account: the last account you switched to is marked *Last used*, listed first and focused when the flyout opens (shortcut + Enter), and offered in the tray as *Switch back to …*. It is kept in memory only, so nothing about other users is written to disk; the request goes through the same fresh validation as any other switch.
 - Global shortcut (default Win/Super + Shift + U) with conflict detection and in-app capture; `--toggle` for desktops without global shortcuts.
@@ -19,7 +19,7 @@
 
 **Fixes after the first test build**
 
-- Windows: switching no longer disconnects the console session (`WTSDisconnectSession`), which looked like a plain lock and rearranged desktop icons on multi-monitor setups when returning. It now locks the PC like Win+L, and the panel explains that the account is chosen in the bottom-left corner of the sign-in screen.
+- Windows: the fallback uses the same lock as Win+L and keeps the console session attached to its displays.
 - The flyout stays hidden until the new state is rendered and sized, so it no longer flickers on open; the CSS fade is skipped where the OS draws Acrylic or vibrancy.
 - Settings opens at its full height (up to 700 px within the work area); previously the size tracking stopped after the first reopen.
 - Tab and Shift+Tab now cycle inside the panel instead of leaving it.
@@ -30,9 +30,9 @@ OS authentication remains native. The app never accepts or stores credentials, e
 
 **Known limitations**
 
-- Windows cannot preselect the chosen account on the sign-in screen.
-- Two-user switching verified by hand on Windows 11 only; not yet on Windows 10, macOS or Linux.
-- Windows 10: same native APIs as Windows 11 and type-checked by the same build, but not yet run on a real Windows 10 device. No Acrylic (solid background, no native shadow).
+- Windows account preselection depends on an internal shell broker whose availability varies by system. Live preselection and display topology during a targeted switch still need manual verification.
+- Live two-account switching was tested on Windows 11 with the earlier lock-based build. Manual testing of the broker handoff on Windows 10 and 11, and of switching on macOS and Linux, is pending.
+- Windows 10 uses a solid background and no native shadow. The broker interfaces were inspected in a Windows 10 22H2 binary. Runtime testing on a Windows 10 device is pending.
 - macOS: switching and locking use the system's private `login.framework` (the component behind the Fast User Switching menu), resolved at runtime; the build is type-checked for both Mac architectures but has not yet run on a real Mac. The app is not notarized.
 - Wayland: global shortcut unavailable (use `--toggle`); no background blur on Linux.
 - Avatars are initials only.

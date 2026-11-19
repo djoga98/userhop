@@ -40,6 +40,7 @@ pub fn caps_all() -> ProviderCapabilities {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Call {
     ActivateOwn(SessionKey),
+    SignInFor(AccountKey),
     SignIn,
     Lock,
 }
@@ -86,6 +87,10 @@ impl SessionProvider for FakeProvider {
 
     fn open_system_sign_in(&self) -> SwitcherResult<()> {
         self.record(Call::SignIn)
+    }
+
+    fn open_system_sign_in_for(&self, account: &AccountKey) -> SwitcherResult<()> {
+        self.record(Call::SignInFor(account.clone()))
     }
 
     fn lock_current_session(&self) -> SwitcherResult<()> {
