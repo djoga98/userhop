@@ -266,6 +266,8 @@ ffmpeg -framerate 30 -i .video/frames/frame-%05d.png -vf "fps=20,scale=960:-1:fl
   -c:v libwebp_anim -quality 95 -loop 0 assets/readme/demo.webp
 ```
 
+To publish a release, set the same version in `package.json`, `src-tauri/Cargo.toml` and `src-tauri/tauri.conf.json`, add a matching `## x.y.z` section to `CHANGELOG.md` and push a tag such as `v0.1.0`. `.github/workflows/release.yml` checks the versions, builds the installers on all three systems and attaches them with checksums to a draft release for you to review and publish.
+
 The website lives in `site/`. Its live demo runs the same app components in an iframe against an in-memory mock backend (`demo/`, `src/demo/`). Preview it with `pnpm site:preview`; pushes to `main` deploy it to GitHub Pages through `.github/workflows/pages.yml`.
 
 </details>

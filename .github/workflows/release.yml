@@ -1,0 +1,134 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  CARGO_TERM_COLOR: always
+  LINUX_PACKAGES: >-
+    libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev
+    libssl-dev build-essential file patchelf
+  APT_OPTIONS: -o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30
+
+jobs:
+  prepare:
+    name: Check version and draft the release
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Tag matches the app version
+        shell: bash
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          conf=$(node -p "require('./src-tauri/tauri.conf.json').version")
+          pkg=$(node -p "require('./package.json').version")
+          cargo=$(sed -n 's/^version = "\(.*\)"$/\1/p' src-tauri/Cargo.toml | head -n 1)
+          echo "tag=$tag tauri.conf.json=$conf package.json=$pkg Cargo.toml=$cargo"
+          if [ "$tag" != "$conf" ] || [ "$tag" != "$pkg" ] || [ "$tag" != "$cargo" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match the version in tauri.conf.json, package.json and Cargo.toml"
+            exit 1
+          fi
+      - name: Release notes from CHANGELOG.md
+        shell: bash
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          awk -v heading="## $version" '
+            /^## / {
+              if (found) exit
+              if ($0 == heading || index($0, heading " ") == 1) { found = 1; next }
+            }
+            found { print }
+          ' CHANGELOG.md > notes.md
+          if [ ! -s notes.md ]; then
+            echo "::error::CHANGELOG.md has no section for $version"
+            exit 1
+          fi
+          cat >> notes.md <<'EOF'
+
+          ---
+
+          The installers are not code-signed yet, so Windows SmartScreen and macOS Gatekeeper may warn before the first launch. Each build job attaches a `SHA256SUMS-<system>.txt` file for verifying the downloads.
+          EOF
+          cat notes.md
+      - name: Create a draft release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "Release $GITHUB_REF_NAME already exists; its assets will be replaced."
+          else
+            gh release create "$GITHUB_REF_NAME" --draft --verify-tag \
+              --title "Userhop ${GITHUB_REF_NAME#v}" --notes-file notes.md
+          fi
+
+  bundle:
+    name: Bundle (${{ matrix.os }})
+    needs: prepare
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            system: linux
+            bundle_dir: src-tauri/target/release/bundle
+            build_args: ""
+          - os: windows-latest
+            system: windows
+            bundle_dir: src-tauri/target/release/bundle
+            build_args: ""
+          - os: macos-latest
+            system: macos
+            bundle_dir: src-tauri/target/universal-apple-darwin/release/bundle
+            build_args: --target universal-apple-darwin
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install Linux prerequisites
+        if: runner.os == 'Linux'
+        run: sudo apt-get $APT_OPTIONS update && sudo apt-get $APT_OPTIONS install -y $LINUX_PACKAGES
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - uses: dtolnay/rust-toolchain@39008827e6b4319a349e9a42dfc90579dd25f1ca # stable
+        with:
+          toolchain: stable
+          targets: ${{ runner.os == 'macOS' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+      - run: pnpm install --frozen-lockfile
+      - name: Build unsigned bundles
+        run: pnpm tauri build --ci ${{ matrix.build_args }}
+      - name: Attach installers and checksums to the draft release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SUMS: SHA256SUMS-${{ matrix.system }}.txt
+        run: |
+          cd ${{ matrix.bundle_dir }}
+          if command -v sha256sum >/dev/null; then hash="sha256sum"; else hash="shasum -a 256"; fi
+          files=()
+          while IFS= read -r -d '' file; do files+=("$file"); done < <(
+            find . -type f \( -name '*.msi' -o -name '*.exe' -o -name '*.deb' -o -name '*.rpm' -o -name '*.AppImage' -o -name '*.dmg' \) -print0
+          )
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "::error::No installers were produced"
+            exit 1
+          fi
+          (for file in "${files[@]}"; do (cd "$(dirname "$file")" && $hash "$(basename "$file")"); done) > "$SUMS"
+          cat "$SUMS"
+          gh release upload "$GITHUB_REF_NAME" "${files[@]}" "$SUMS" --clobber --repo "$GITHUB_REPOSITORY"

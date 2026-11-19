@@ -43,7 +43,7 @@ jobs:
           if [ "$EVENT" != "workflow_dispatch" ] && git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
             changed=$(git diff --name-only "$BASE" "$GITHUB_SHA")
             echo "$changed"
-            if ! grep -qvE '^(site/|demo/|src/demo/|src/preview/|assets/readme/|docs/|scripts/(build-site|record-readme-video)\.mjs$|vite\.(demo|preview)\.config\.ts$|\.github/workflows/pages\.yml$|README\.md$|CHANGELOG\.md$|LICENSE$)' <<<"$changed"; then
+            if ! grep -qvE '^(site/|demo/|src/demo/|src/preview/|assets/readme/|docs/|scripts/(build-site|record-readme-video)\.mjs$|vite\.(demo|preview)\.config\.ts$|\.github/workflows/(pages|release)\.yml$|README\.md$|CHANGELOG\.md$|LICENSE$)' <<<"$changed"; then
               app=false
             fi
           fi
