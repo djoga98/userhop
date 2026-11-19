@@ -13,10 +13,6 @@ concurrency:
 
 env:
   CARGO_TERM_COLOR: always
-  LINUX_PACKAGES: >-
-    libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev
-    libssl-dev build-essential file patchelf
-  APT_OPTIONS: -o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30
 
 jobs:
   prepare:
@@ -100,7 +96,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install Linux prerequisites
         if: runner.os == 'Linux'
-        run: sudo apt-get $APT_OPTIONS update && sudo apt-get $APT_OPTIONS install -y $LINUX_PACKAGES
+        run: bash scripts/install-linux-deps.sh
       - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
