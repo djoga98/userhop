@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Userhop — switch accounts on your computer in a keystroke</title>
+    <meta
+      name="description"
+      content="Userhop is a tiny tray and menu bar utility for Windows, macOS and Linux. Press one shortcut, pick an account and your operating system signs you in. The app never sees a password."
+    />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0f1630" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f3f6fc" media="(prefers-color-scheme: light)" />
+    <link rel="canonical" href="https://djoga98.github.io/userhop/" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Userhop — every account on your computer, one keystroke away"
+    />
+    <meta
+      property="og:description"
+      content="A tiny, keyboard-first account switcher for Windows, macOS and Linux. Your OS does the signing in."
+    />
+    <meta property="og:url" content="https://djoga98.github.io/userhop/" />
+    <meta property="og:image" content="https://djoga98.github.io/userhop/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="nav">
+      <div class="wrap nav-inner">
+        <a class="brand" href="#top" aria-label="Userhop home">
+          <img src="favicon.svg" alt="" width="28" height="28" />
+          <span>Userhop</span>
+        </a>
+        <nav aria-label="Primary">
+          <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how">How it works</a></li>
+            <li><a href="#privacy">Privacy</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li>
+              <a class="nav-github" href="https://github.com/djoga98/userhop">GitHub</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="wrap hero-stack">
+          <div class="hero-copy">
+            <p class="eyebrow">Free and open source · Windows · macOS · Linux</p>
+            <h1>Every account on your computer, one keystroke away.</h1>
+            <p class="lede">
+              Userhop is a tiny tray and menu bar app for computers shared between work and personal
+              accounts, or with family. Press
+              <kbd>Win</kbd>&nbsp;+&nbsp;<kbd>Shift</kbd>&nbsp;+&nbsp;<kbd>U</kbd>, pick an account,
+              and your operating system signs you in. The app never sees a password.
+            </p>
+            <div class="cta">
+              <a class="button primary" href="#download">Download</a>
+              <a class="button" href="https://github.com/djoga98/userhop">View on GitHub</a>
+            </div>
+            <p class="fineprint">
+              <kbd>⌃</kbd>&nbsp;+&nbsp;<kbd>⌥</kbd>&nbsp;+&nbsp;<kbd>U</kbd> on a Mac · MIT License
+              · No telemetry
+            </p>
+          </div>
+          <figure class="hero-media">
+            <div class="frame">
+              <video
+                id="demo"
+                autoplay
+                muted
+                loop
+                playsinline
+                controls
+                preload="metadata"
+                poster="media/hero-dark.webp"
+                width="1920"
+                height="1080"
+                aria-label="Demo: the shortcut opens the flyout, the arrow key selects Sam Rivera and Enter hands off to the system sign-in screen"
+              >
+                <source src="media/demo.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <figcaption>Illustrated demo with sample accounts.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section" id="features" aria-labelledby="features-title">
+        <div class="wrap">
+          <h2 id="features-title">Small app, no detours</h2>
+          <p class="section-lede">
+            Normally switching users means digging through the Start menu, Control Center or a power
+            menu. Userhop puts every account in a compact panel inspired by Windows 11.
+          </p>
+          <ul class="cards">
+            <li class="card">
+              <h3>Instant</h3>
+              <p>
+                One shortcut opens the panel next to your taskbar or menu bar. Arrow keys,
+                <kbd>Enter</kbd> and <kbd>Esc</kbd> do the rest.
+              </p>
+            </li>
+            <li class="card">
+              <h3>Honest status</h3>
+              <p>
+                See who is <em>signed in</em>, who is <em>signed in remotely</em> and who is
+                <em>not signed in</em>. It never claims a switch your OS hasn't finished.
+              </p>
+            </li>
+            <li class="card">
+              <h3>Your OS stays in charge</h3>
+              <p>
+                Windows, the macOS login window or your Linux login screen does the signing in,
+                exactly as it normally would.
+              </p>
+            </li>
+            <li class="card">
+              <h3>Switch back fast</h3>
+              <p>
+                The account you used last is listed first and already selected, so the shortcut
+                followed by <kbd>Enter</kbd> takes you back.
+              </p>
+            </li>
+            <li class="card">
+              <h3>Native look</h3>
+              <p>
+                Acrylic glass on Windows 11, vibrancy on macOS, light and dark themes, high contrast
+                and reduced motion.
+              </p>
+            </li>
+            <li class="card">
+              <h3>Lightweight</h3>
+              <p>
+                A ~1.3&nbsp;MB Windows installer. It sits quietly in the tray and uses almost no CPU
+                when idle.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section alt" id="how" aria-labelledby="how-title">
+        <div class="wrap">
+          <h2 id="how-title">How it works</h2>
+          <ol class="steps">
+            <li>
+              <span class="step-n" aria-hidden="true">1</span>
+              <h3>Open the panel</h3>
+              <p>Press the shortcut or click the tray icon.</p>
+            </li>
+            <li>
+              <span class="step-n" aria-hidden="true">2</span>
+              <h3>Pick an account</h3>
+              <p>With the arrow keys and <kbd>Enter</kbd>, or a click.</p>
+            </li>
+            <li>
+              <span class="step-n" aria-hidden="true">3</span>
+              <h3>Sign in on your OS</h3>
+              <p>Your system's own sign-in screen takes over. Your apps keep running.</p>
+            </li>
+          </ol>
+          <div class="os-grid">
+            <div class="os">
+              <h3>Windows 10 and 11</h3>
+              <p>
+                Userhop asks Windows to open sign-in for the selected account. If that isn't
+                available, the PC locks and you pick the account in the bottom-left corner.
+              </p>
+            </div>
+            <div class="os">
+              <h3>macOS 11 and later</h3>
+              <p>
+                The familiar macOS login window appears, just like Fast User Switching. Your session
+                keeps running.
+              </p>
+            </div>
+            <div class="os">
+              <h3>Linux</h3>
+              <p>
+                Your session locks first, then GDM, LightDM or SDDM opens. On Wayland, add a custom
+                shortcut that runs <code>userhop --toggle</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="gallery" aria-labelledby="gallery-title">
+        <div class="wrap">
+          <h2 id="gallery-title">A closer look</h2>
+          <div class="gallery">
+            <figure>
+              <img
+                src="media/list-light.webp"
+                width="1120"
+                height="920"
+                loading="lazy"
+                alt="The account list in the light theme with Sam Rivera marked Last used and selected"
+              />
+              <figcaption>
+                <strong>Light or dark.</strong> Follows your system, or pick one.
+              </figcaption>
+            </figure>
+            <figure>
+              <img
+                src="media/settings-dark.webp"
+                width="1120"
+                height="1440"
+                loading="lazy"
+                alt="Settings with launch at sign-in, shortcut, theme, compact rows and reduce motion"
+              />
+              <figcaption>
+                <strong>Simple settings.</strong> Startup, shortcut, theme and motion.
+              </figcaption>
+            </figure>
+            <figure>
+              <img
+                src="media/notice-dark.webp"
+                width="1120"
+                height="1080"
+                loading="lazy"
+                alt="A message explaining that switching isn't available in a remote session"
+              />
+              <figcaption>
+                <strong>Clear when it can't.</strong> Tells you why, and what to do instead.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt" id="privacy" aria-labelledby="privacy-title">
+        <div class="wrap privacy">
+          <div>
+            <h2 id="privacy-title">Private by design</h2>
+            <p class="section-lede">
+              An account switcher is close to your sign-in, so Userhop does as little as possible
+              and leaves authentication to your operating system.
+            </p>
+          </div>
+          <ul class="checks">
+            <li>
+              <strong>Never asks for a password.</strong> No passwords, PINs or tokens are
+              requested, stored or passed on.
+            </li>
+            <li>
+              <strong>No direct access to other desktops.</strong> Another session only opens after
+              your OS asks that person to sign in.
+            </li>
+            <li>
+              <strong>Nothing leaves your computer.</strong> No accounts, analytics, ads, update
+              pings or network requests.
+            </li>
+            <li>
+              <strong>Almost nothing is saved.</strong> Only your preferences. The last used account
+              is kept in memory and forgotten when the app quits.
+            </li>
+            <li>
+              <strong>No admin rights, no services.</strong> It runs as you and adds nothing to the
+              login process.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" id="download" aria-labelledby="download-title">
+        <div class="wrap">
+          <h2 id="download-title">Download</h2>
+          <p class="section-lede">
+            Get the installer for your system from the latest release on GitHub.
+          </p>
+          <div class="downloads">
+            <a class="download" href="https://github.com/djoga98/userhop/releases/latest">
+              <span class="download-os">Windows 10 or 11</span>
+              <span class="download-file"
+                >Setup <code>.exe</code> for you · <code>.msi</code> for everyone on the PC</span
+              >
+            </a>
+            <a class="download" href="https://github.com/djoga98/userhop/releases/latest">
+              <span class="download-os">macOS 11 or later</span>
+              <span class="download-file"
+                >Universal <code>.dmg</code> for Apple Silicon and Intel</span
+              >
+            </a>
+            <a class="download" href="https://github.com/djoga98/userhop/releases/latest">
+              <span class="download-os">Linux</span>
+              <span class="download-file"
+                ><code>.deb</code> · <code>.rpm</code> · <code>.AppImage</code></span
+              >
+            </a>
+          </div>
+          <div class="note" role="note">
+            <strong>Early release (0.1).</strong> Windows 10, macOS and Linux haven't been tested on
+            every system yet. The installers aren't code-signed, so Windows SmartScreen and macOS
+            may warn before the first launch. If something doesn't work on your setup, please
+            <a href="https://github.com/djoga98/userhop/issues">open an issue</a> with your OS
+            version, desktop and login screen.
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt" id="faq" aria-labelledby="faq-title">
+        <div class="wrap faq">
+          <h2 id="faq-title">Questions</h2>
+          <details>
+            <summary>Will I lose my open apps when I switch?</summary>
+            <p>
+              No. Switching never signs you out. When you come back to your account, everything is
+              where you left it.
+            </p>
+          </details>
+          <details>
+            <summary>Why do I sometimes have to pick the account again on Windows?</summary>
+            <p>
+              Preselecting the account depends on an internal Windows component. If it isn't
+              available, Userhop locks the PC and you choose the account on the Windows sign-in
+              screen. Windows handles authentication in either case.
+            </p>
+          </details>
+          <details>
+            <summary>Does it work in a remote desktop session?</summary>
+            <p>
+              No. Switching users is a feature of the physical screen, so it isn't offered inside a
+              remote session. The panel tells you when that's the case.
+            </p>
+          </details>
+          <details>
+            <summary>The shortcut doesn't work on Linux.</summary>
+            <p>
+              Apps can't register global shortcuts on Wayland. Add a custom shortcut in your
+              desktop's keyboard settings that runs <code>userhop --toggle</code>.
+            </p>
+          </details>
+          <details>
+            <summary>Is it free?</summary>
+            <p>
+              Yes. Userhop is open source under the MIT License. The code is on
+              <a href="https://github.com/djoga98/userhop">GitHub</a>.
+            </p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <p>
+          <img src="favicon.svg" alt="" width="20" height="20" />
+          Userhop · MIT License ·
+          <a href="https://github.com/djoga98/userhop">Source on GitHub</a>
+        </p>
+        <p class="muted">
+          Not affiliated with Microsoft, Apple or any Linux distribution. This page uses no cookies,
+          trackers or third-party requests.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        var video = document.getElementById("demo");
+        if (!video || !window.matchMedia) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          video.removeAttribute("autoplay");
+          video.pause();
+        }
+      })();
+    </script>
+  </body>
+</html>
