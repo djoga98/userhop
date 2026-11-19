@@ -8,3 +8,4 @@ pnpm-lock.yaml
 dist-preview
 .video
 dist-site
+dist-demo
