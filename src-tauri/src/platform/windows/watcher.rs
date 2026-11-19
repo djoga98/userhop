@@ -65,7 +65,7 @@ pub fn spawn_session_watcher(sink: EventSink) {
 
 fn run_message_loop() -> windows::core::Result<()> {
     let module = unsafe { GetModuleHandleW(None) }?;
-    let class_name = w!("FluentAccountSwitcherSessionWatcher");
+    let class_name = w!("UserhopSessionWatcher");
     let class = WNDCLASSW {
         lpfnWndProc: Some(window_proc),
         hInstance: module.into(),

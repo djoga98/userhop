@@ -368,7 +368,7 @@ describe("settings (UI-12)", () => {
     });
     const user = await renderApp();
     await user.click(screen.getByRole("button", { name: "Settings" }));
-    expect(await screen.findByText(/fluent-account-switcher --toggle/)).toBeInTheDocument();
+    expect(await screen.findByText(/userhop --toggle/)).toBeInTheDocument();
   });
 });
 

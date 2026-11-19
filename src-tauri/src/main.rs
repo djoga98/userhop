@@ -1,5 +1,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    fluent_account_switcher_lib::run()
+    userhop_lib::run()
 }

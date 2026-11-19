@@ -1066,31 +1066,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "fluent-account-switcher"
-version = "0.1.0"
-dependencies = [
- "block2",
- "libc",
- "objc2-app-kit",
- "objc2-foundation",
- "plist",
- "rustix",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tauri-plugin-autostart",
- "tauri-plugin-global-shortcut",
- "tauri-plugin-single-instance",
- "thiserror 2.0.21",
- "tracing",
- "tracing-subscriber",
- "ts-rs",
- "windows",
- "zbus",
-]
-
-[[package]]
 name = "fnv"
 version = "1.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4422,6 +4397,31 @@ dependencies = [
  "regex",
  "serde",
  "url",
+]
+
+[[package]]
+name = "userhop"
+version = "0.1.0"
+dependencies = [
+ "block2",
+ "libc",
+ "objc2-app-kit",
+ "objc2-foundation",
+ "plist",
+ "rustix",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-autostart",
+ "tauri-plugin-global-shortcut",
+ "tauri-plugin-single-instance",
+ "thiserror 2.0.21",
+ "tracing",
+ "tracing-subscriber",
+ "ts-rs",
+ "windows",
+ "zbus",
 ]
 
 [[package]]

@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="340" viewBox="0 0 1280 340" role="img" aria-labelledby="title desc">
-  <title id="title">Fluent Account Switcher</title>
+  <title id="title">Userhop</title>
   <desc id="desc">Switch between the accounts on your PC from a tiny Fluent-style flyout.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
@@ -39,7 +39,7 @@
     </g>
   </g>
   <g font-family="'Segoe UI Variable Display', 'Segoe UI', -apple-system, 'Helvetica Neue', Arial, sans-serif" fill="#ffffff">
-    <text x="300" y="158" font-size="62" font-weight="700" letter-spacing="-1.2">Fluent Account Switcher</text>
+    <text x="300" y="158" font-size="62" font-weight="700" letter-spacing="-1.2">Userhop</text>
     <text x="302" y="210" font-size="24" fill-opacity="0.82">Switch between the accounts on your computer from a tiny, keyboard-first flyout.</text>
     <g font-size="18" font-weight="600">
       <rect x="302" y="240" width="176" height="40" rx="20" fill="#ffffff" fill-opacity="0.12"/>

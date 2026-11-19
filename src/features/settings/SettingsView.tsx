@@ -124,7 +124,7 @@ export function SettingsView({ controller, platform }: SettingsViewProps) {
       </Section>
       <Section title="About">
         <p className="py-2 text-[12.5px] text-secondary">
-          Fluent Account Switcher {settings.version} · MIT License
+          Userhop {settings.version} · MIT License
           <br />
           Sign-in is always handled by your operating system. No passwords, accounts or usage data
           are stored or sent anywhere.

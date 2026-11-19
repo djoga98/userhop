@@ -35,7 +35,7 @@ pub fn install(app: &AppHandle, lock_available: bool) -> tauri::Result<MenuItem<
     let menu = Menu::with_items(app, &[&open, &recent, &lock, &settings, &separator, &quit])?;
 
     let mut builder = TrayIconBuilder::with_id("main")
-        .tooltip("Fluent Account Switcher")
+        .tooltip("Userhop")
         .menu(&menu)
         .show_menu_on_left_click(false)
         .on_menu_event(|app, event| match event.id.as_ref() {

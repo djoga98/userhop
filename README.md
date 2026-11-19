@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/readme/banner.svg" alt="Fluent Account Switcher — switch between the accounts on your computer from a tiny, keyboard-first flyout" width="100%">
+  <img src="assets/readme/banner.svg" alt="Userhop — switch between the accounts on your computer from a tiny, keyboard-first flyout" width="100%">
 </p>
 
 <p align="center">
@@ -27,7 +27,7 @@
 
 ## Why you'll like it
 
-Sharing one computer between work and personal accounts, or with family? Normally that means digging through the Start menu, Control Center or your desktop's power menu to find *Switch user*. Fluent Account Switcher puts every account one keystroke away, in a compact panel inspired by Windows 11.
+Sharing one computer between work and personal accounts, or with family? Normally that means digging through the Start menu, Control Center or your desktop's power menu to find *Switch user*. Userhop puts every account one keystroke away, in a compact panel inspired by Windows 11.
 
 - **⚡ Instant.** Press <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>U</kbd> (<kbd>⌃</kbd> <kbd>⌥</kbd> <kbd>U</kbd> on a Mac) and the panel appears next to your taskbar or menu bar.
 - **👀 Honest status.** See at a glance who is *signed in*, who is *signed in remotely* and who is *not signed in*.
@@ -68,11 +68,11 @@ When you pick another account, the app hides and hands over to the operating sys
 
 | Your system | What to download |
 | --- | --- |
-| **Windows 10 or 11** (64-bit) | **Just for you:** `Fluent Account Switcher_x.y.z_x64-setup.exe` — no admin rights needed.<br>**For everyone on this PC:** `Fluent Account Switcher_x.y.z_x64_en-US.msi` — asks for admin rights once. On Windows 10 both fetch Microsoft Edge WebView2 if it isn't installed yet. |
-| **macOS 11 or later** (Apple Silicon and Intel) | `Fluent Account Switcher_x.y.z_universal.dmg` — open it and drag the app to **Applications**. |
-| **Ubuntu / Debian** | `Fluent Account Switcher_x.y.z_amd64.deb` |
-| **Fedora / openSUSE** | `Fluent Account Switcher-x.y.z-1.x86_64.rpm` |
-| **Any Linux** | `Fluent Account Switcher_x.y.z_amd64.AppImage` |
+| **Windows 10 or 11** (64-bit) | **Just for you:** `Userhop_x.y.z_x64-setup.exe` — no admin rights needed.<br>**For everyone on this PC:** `Userhop_x.y.z_x64_en-US.msi` — asks for admin rights once. On Windows 10 both fetch Microsoft Edge WebView2 if it isn't installed yet. |
+| **macOS 11 or later** (Apple Silicon and Intel) | `Userhop_x.y.z_universal.dmg` — open it and drag the app to **Applications**. |
+| **Ubuntu / Debian** | `Userhop_x.y.z_amd64.deb` |
+| **Fedora / openSUSE** | `Userhop-x.y.z-1.x86_64.rpm` |
+| **Any Linux** | `Userhop_x.y.z_amd64.AppImage` |
 
 Grab the files from the [**latest release**](../../releases/latest).
 
@@ -89,20 +89,20 @@ Grab the files from the [**latest release**](../../releases/latest).
 
 ```sh
 # Ubuntu / Debian
-sudo apt install "./Fluent Account Switcher_x.y.z_amd64.deb"
+sudo apt install "./Userhop_x.y.z_amd64.deb"
 
 # Fedora / openSUSE
-sudo dnf install "./Fluent Account Switcher-x.y.z-1.x86_64.rpm"
+sudo dnf install "./Userhop-x.y.z-1.x86_64.rpm"
 
 # AppImage
-chmod +x Fluent*.AppImage && ./Fluent*.AppImage
+chmod +x Userhop*.AppImage && ./Userhop*.AppImage
 ```
 
 </details>
 
 ## Getting started
 
-1. Install and launch **Fluent Account Switcher**. It opens once so you can see it, then lives in your system tray (the menu bar on macOS).
+1. Install and launch **Userhop**. It opens once so you can see it, then lives in your system tray (the menu bar on macOS).
 2. Press <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>U</kbd> any time (<kbd>⌃</kbd> <kbd>⌥</kbd> <kbd>U</kbd> on a Mac), or click the tray icon.
 3. Pick an account. That's it.
 
@@ -169,7 +169,7 @@ Another app may already use the shortcut. The panel footer will say *Shortcut un
 On Linux with Wayland, apps can't register global shortcuts. Add a custom shortcut in your desktop's keyboard settings that runs:
 
 ```sh
-fluent-account-switcher --toggle
+userhop --toggle
 ```
 
 </details>
@@ -205,9 +205,9 @@ On Windows: everyone signed in, plus the local accounts that appear on the Windo
 <details>
 <summary><b>How do I uninstall it?</b></summary>
 
-- **Windows:** Settings → Apps → Installed apps → *Fluent Account Switcher* → Uninstall (the all-users `.msi` version asks for admin rights). Tick *Delete the application data* to remove your preferences too.
-- **macOS:** turn off **Settings → Launch at sign-in**, quit the app from the menu bar and drag it from **Applications** to the Trash. To remove your preferences, delete `~/Library/Application Support/com.fluentaccountswitcher.desktop`.
-- **Linux:** remove the package (`sudo apt remove fluent-account-switcher` or `sudo dnf remove fluent-account-switcher`). To remove your preferences, delete `~/.config/com.fluentaccountswitcher.desktop`.
+- **Windows:** Settings → Apps → Installed apps → *Userhop* → Uninstall (the all-users `.msi` version asks for admin rights). Tick *Delete the application data* to remove your preferences too.
+- **macOS:** turn off **Settings → Launch at sign-in**, quit the app from the menu bar and drag it from **Applications** to the Trash. To remove your preferences, delete `~/Library/Application Support/app.userhop.desktop`.
+- **Linux:** remove the package (`sudo apt remove userhop` or `sudo dnf remove userhop`). To remove your preferences, delete `~/.config/app.userhop.desktop`.
 
 Nothing else is left behind.
 
@@ -263,4 +263,4 @@ ffmpeg -framerate 30 -i .video/frames/frame-%05d.png -vf "fps=20,scale=960:-1:fl
 
 ## License
 
-[MIT](LICENSE) © Fluent Account Switcher contributors
+[MIT](LICENSE) © Userhop contributors

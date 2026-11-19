@@ -1,9 +1,9 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Fluent Account Switcher",
-  "mainBinaryName": "fluent-account-switcher",
+  "productName": "Userhop",
+  "mainBinaryName": "userhop",
   "version": "0.1.0",
-  "identifier": "com.fluentaccountswitcher.desktop",
+  "identifier": "app.userhop.desktop",
   "build": {
     "beforeDevCommand": "pnpm dev",
     "devUrl": "http://localhost:1420",
@@ -46,7 +46,7 @@
     "category": "Utility",
     "shortDescription": "Switch operating-system accounts from a compact flyout",
     "longDescription": "A keyboard-first tray utility that lists local accounts and sessions and hands off to the operating system's own sign-in screen. It never asks for or stores credentials.",
-    "copyright": "Copyright (c) 2026 Fluent Account Switcher contributors",
+    "copyright": "Copyright (c) 2026 Userhop contributors",
     "license": "MIT",
     "icon": [
       "icons/32x32.png",

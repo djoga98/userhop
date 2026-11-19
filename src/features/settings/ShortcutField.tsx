@@ -26,7 +26,7 @@ function statusText(status: ShortcutStatus, platform: Platform): string {
       return errorMessages.shortcut_invalid;
     case "unsupported":
       return platform === "linux"
-        ? "Global shortcuts aren't available on this Wayland desktop. Add a custom shortcut in your desktop settings that runs “fluent-account-switcher --toggle”."
+        ? "Global shortcuts aren't available on this Wayland desktop. Add a custom shortcut in your desktop settings that runs “userhop --toggle”."
         : errorMessages.shortcut_unsupported;
   }
 }

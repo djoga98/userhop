@@ -6,7 +6,7 @@ use std::time::Duration;
 use tauri::{AppHandle, Runtime};
 
 const MAX_MESSAGE_BYTES: u64 = 8 * 1024;
-const SOCKET_NAME: &str = "com.fluentaccountswitcher.desktop.sock";
+const SOCKET_NAME: &str = "app.userhop.desktop.sock";
 
 /// macOS gives every user a private `$TMPDIR`, so the lock never spans other users' sessions.
 /// The official plugin uses a shared `/tmp` path on macOS, which would let users collide.
