@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 dist-preview
 .video
+dist-site

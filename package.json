@@ -19,7 +19,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "preview:readme": "vite --open /preview/index.html",
-    "build:readme-preview": "vite build -c vite.preview.config.ts"
+    "build:readme-preview": "vite build -c vite.preview.config.ts",
+    "site:build": "node scripts/build-site.mjs",
+    "site:preview": "node scripts/build-site.mjs && vite preview --outDir dist-site --port 4180 --strictPort"
   },
   "dependencies": {
     "@tauri-apps/api": "2.12.5",
