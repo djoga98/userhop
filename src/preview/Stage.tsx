@@ -4,6 +4,7 @@ import { useEffect, useSyncExternalStore } from "react";
 import { App } from "../app/App";
 import { heightStore } from "./heightStore";
 import type { Scene } from "./scene";
+import { Taskbar } from "./Taskbar";
 
 export function Stage({ scene }: { scene: Scene }) {
   const height = useSyncExternalStore(heightStore.subscribe, heightStore.get);
@@ -25,28 +26,17 @@ export function Stage({ scene }: { scene: Scene }) {
 
   return (
     <div
-      className={`preview-stage preview-${scene.theme} ${scene.center ? "preview-center" : ""}`}
+      className={`desktop preview-stage ${scene.center ? "preview-center" : ""}`}
+      data-theme={scene.theme}
       style={{ width: scene.width, height: scene.height }}
     >
-      <div className="preview-glow preview-glow-a" />
-      <div className="preview-glow preview-glow-b" />
-      <div className="preview-glow preview-glow-c" />
-      {scene.hint && (
-        <div className="preview-hint" aria-hidden="true">
-          <p className="preview-hint-title">Switch accounts in a keystroke</p>
-          <p className="preview-keys">
-            <kbd>Win</kbd>
-            <span>+</span>
-            <kbd>Shift</kbd>
-            <span>+</span>
-            <kbd>U</kbd>
-          </p>
-          <p className="preview-hint-sub">Your OS signs you in. The app never sees a password.</p>
-        </div>
-      )}
-      <div className="preview-window" style={{ height }}>
+      <div
+        className={scene.center ? "preview-window" : "desktop-flyout preview-window"}
+        style={{ height }}
+      >
         <App />
       </div>
+      {!scene.center && <Taskbar active />}
     </div>
   );
 }

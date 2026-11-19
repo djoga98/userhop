@@ -11,7 +11,6 @@ export type Scene = {
   focus: number;
   notice: boolean;
   center: boolean;
-  hint: boolean;
   recent: boolean;
   width: number;
   height: number;
@@ -26,7 +25,6 @@ export function readScene(search: string): Scene {
     focus: number("focus", 0),
     notice: params.get("notice") === "1",
     center: params.get("center") === "1",
-    hint: params.get("hint") === "1",
     recent: params.get("recent") === "1",
     width: number("w", 1200),
     height: number("h", 640),

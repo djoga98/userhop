@@ -11,14 +11,8 @@
   --accent-text: #ffffff;
   --link: #005fb8;
   --kbd: #ffffff;
-  --taskbar: rgba(238, 241, 246, 0.82);
-  --taskbar-hover: rgba(0, 0, 0, 0.06);
+  --hover: rgba(0, 0, 0, 0.06);
   --desk-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 16px 40px rgba(0, 0, 0, 0.12);
-  --wallpaper:
-    radial-gradient(70% 90% at 100% 100%, #b9cde8 0%, transparent 65%),
-    radial-gradient(80% 70% at 0% 0%, #f6efe4 0%, transparent 60%),
-    linear-gradient(155deg, #e6edf6 0%, #d8e3f1 55%, #cddbee 100%);
-  --screen-bg: rgba(225, 233, 244, 0.72);
   --radius: 8px;
   --font:
     "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
@@ -43,14 +37,8 @@
     --accent-text: #000000;
     --link: #60cdff;
     --kbd: #383838;
-    --taskbar: rgba(28, 30, 36, 0.82);
-    --taskbar-hover: rgba(255, 255, 255, 0.08);
+    --hover: rgba(255, 255, 255, 0.08);
     --desk-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 40px rgba(0, 0, 0, 0.4);
-    --wallpaper:
-      radial-gradient(55% 75% at 88% 92%, #285a8c 0%, transparent 70%),
-      radial-gradient(45% 55% at 18% 12%, #1f4060 0%, transparent 70%),
-      linear-gradient(160deg, #0f1722 0%, #13202f 55%, #172b42 100%);
-    --screen-bg: rgba(16, 22, 32, 0.74);
   }
 }
 
@@ -170,7 +158,7 @@ code {
 }
 
 .topbar nav a:hover {
-  background: var(--taskbar-hover);
+  background: var(--hover);
 }
 
 .btn {
@@ -261,15 +249,11 @@ code {
 }
 
 .desk {
-  position: relative;
   height: 690px;
   margin-top: 24px;
-  overflow: hidden;
   border: 1px solid var(--stroke);
   border-radius: var(--radius);
-  background: var(--wallpaper);
   box-shadow: var(--desk-shadow);
-  isolation: isolate;
 }
 
 .desk-tip {
@@ -277,34 +261,18 @@ code {
   left: 24px;
   top: 24px;
   max-width: 340px;
-  color: var(--text);
   font-size: 0.94rem;
-  text-shadow: 0 1px 2px color-mix(in srgb, var(--bg) 70%, transparent);
 }
 
 .desk-tip:empty {
   display: none;
 }
 
-.flyout {
-  position: absolute;
-  right: 12px;
-  bottom: 60px;
-  z-index: 2;
-  width: min(388px, 100% - 24px);
-  border-radius: var(--radius);
-  backdrop-filter: blur(44px) saturate(160%);
-  -webkit-backdrop-filter: blur(44px) saturate(160%);
-  box-shadow:
-    0 32px 64px rgba(0, 0, 0, 0.28),
-    0 2px 21px rgba(0, 0, 0, 0.2);
-}
-
-.flyout[data-state="hidden"] {
+.desktop-flyout[data-state="hidden"] {
   visibility: hidden;
 }
 
-.flyout iframe {
+.desktop-flyout iframe {
   display: block;
   width: 100%;
   height: 0;
@@ -312,104 +280,6 @@ code {
   border-radius: var(--radius);
   background: transparent;
   color-scheme: light dark;
-}
-
-.taskbar {
-  position: absolute;
-  inset: auto 0 0;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 48px;
-  border-top: 1px solid var(--stroke);
-  background: var(--taskbar);
-  backdrop-filter: blur(30px) saturate(150%);
-  -webkit-backdrop-filter: blur(30px) saturate(150%);
-}
-
-.taskbar svg {
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.taskbar-apps {
-  display: flex;
-  gap: 4px;
-  color: var(--text-2);
-}
-
-.app-icon {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-}
-
-.tray {
-  position: absolute;
-  right: 8px;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  height: 100%;
-}
-
-.tray-button {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border: 0;
-  border-radius: 4px;
-  background: transparent;
-  cursor: pointer;
-}
-
-.tray-button:hover,
-.tray-button[aria-expanded="true"] {
-  background: var(--taskbar-hover);
-}
-
-.tray-status {
-  display: flex;
-  gap: 6px;
-  padding: 0 8px;
-  color: var(--text);
-}
-
-.tray-status svg {
-  width: 16px;
-  height: 16px;
-}
-
-.tray-clock {
-  display: grid;
-  padding: 0 8px;
-  font-size: 0.75rem;
-  line-height: 1.3;
-  text-align: right;
-}
-
-.screen {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  display: grid;
-  place-items: center;
-  background: var(--screen-bg);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-}
-
-.screen[hidden] {
-  display: none;
 }
 
 .screen-card {
@@ -422,17 +292,8 @@ code {
 }
 
 .screen-avatar {
-  display: grid;
-  place-items: center;
-  width: 112px;
-  height: 112px;
   margin-bottom: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: var(--accent-text);
   font-family: var(--font-display);
-  font-size: 2.4rem;
-  font-weight: 600;
 }
 
 .screen-name {
@@ -442,12 +303,12 @@ code {
 }
 
 .screen-text {
-  color: var(--text);
+  color: var(--desk-text);
 }
 
 .screen-note {
   margin-bottom: 10px;
-  color: var(--text-2);
+  color: var(--desk-text-2);
   font-size: 0.9rem;
 }
 
@@ -619,11 +480,11 @@ code {
     height: 720px;
   }
 
-  .taskbar-apps {
+  .desktop-apps {
     display: none;
   }
 
-  .taskbar {
+  .desktop-taskbar {
     justify-content: flex-start;
   }
 
@@ -661,12 +522,12 @@ code {
 @media (forced-colors: active) {
   .btn,
   .desk,
-  .flyout,
-  .taskbar {
+  .desktop-flyout,
+  .desktop-taskbar {
     border: 1px solid CanvasText;
   }
 
-  .screen {
+  .desktop-screen {
     background: Canvas;
   }
 }

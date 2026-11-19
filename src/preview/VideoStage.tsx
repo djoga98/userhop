@@ -1,4 +1,4 @@
-import { Lock, MousePointer2 } from "lucide-react";
+import { MousePointer2 } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 
 import iconUrl from "../../assets/app-icon.svg";
@@ -13,14 +13,13 @@ import {
   KEY_VISIBLE_MS,
   KEYSTROKES,
   SIGN_IN,
-  THEME_SWITCH,
   easeInOutCubic,
   easeOutCubic,
   envelope,
   mix,
-  mixColor,
   progress,
 } from "./timeline";
+import { Taskbar } from "./Taskbar";
 
 declare global {
   interface Window {
@@ -113,7 +112,7 @@ function flyoutStyle(t: number): CSSProperties {
   return { opacity: 0, visibility: "hidden" };
 }
 
-function Keycaps({ t, light }: { t: number; light: number }) {
+function Keycaps({ t }: { t: number }) {
   const active = KEYSTROKES.find((k) => t >= k.at - 200 && t <= k.at + KEY_VISIBLE_MS);
   if (!active) return null;
   const opacity = envelope(
@@ -126,7 +125,7 @@ function Keycaps({ t, light }: { t: number; light: number }) {
   const pressAt = active.at + (active.keys.length - 1) * KEY_STAGGER_MS + 120;
   const pressed = t >= pressAt && t <= pressAt + 160;
   return (
-    <div className={`video-keys ${light > 0.5 ? "video-keys-light" : ""}`} style={{ opacity }}>
+    <div className="video-keys" style={{ opacity }}>
       {active.keys.map((key, index) => {
         const appear = easeOutCubic(
           progress(t, active.at + index * KEY_STAGGER_MS, active.at + index * KEY_STAGGER_MS + 180),
@@ -149,8 +148,7 @@ function Keycaps({ t, light }: { t: number; light: number }) {
   );
 }
 
-function Captions({ t, light }: { t: number; light: number }) {
-  const color = mixColor([245, 247, 255], [20, 26, 46], light);
+function Captions({ t }: { t: number }) {
   return (
     <>
       {CAPTIONS.map((caption) => {
@@ -162,7 +160,6 @@ function Captions({ t, light }: { t: number; light: number }) {
             className="video-caption"
             style={{
               opacity: k,
-              color,
               transform: `translateY(calc(-50% + ${String(mix(18, 0, k))}px))`,
             }}
           >
@@ -181,23 +178,21 @@ function SignInScene({ t }: { t: number }) {
   const card = easeOutCubic(progress(t, SIGN_IN.in + 150, SIGN_IN.in + 650));
   const note = envelope(t, SIGN_IN.in + 900, SIGN_IN.in + 1400, SIGN_IN.out - 450, SIGN_IN.out);
   return (
-    <div className="video-signin" style={{ opacity: k }}>
+    <div className="desktop-screen video-signin" style={{ opacity: k }}>
       <div
         className="video-signin-card"
         style={{
           opacity: card,
-          transform: `translateY(${String(mix(24, 0, card))}px) scale(${String(mix(0.96, 1, card))})`,
+          transform: `translateY(${String(mix(24, 0, card))}px)`,
         }}
       >
-        <span className="video-signin-avatar">SR</span>
+        <span className="desktop-avatar">SR</span>
         <p className="video-signin-name">Sam Rivera</p>
-        <p className="video-signin-hint">
-          <Lock size={16} aria-hidden="true" /> Sign-in happens on your system&apos;s own screen
+        <p className="video-signin-text">Windows asks Sam to sign in here.</p>
+        <p className="video-signin-note" style={{ opacity: note }}>
+          Userhop never sees this screen. Your apps keep running.
         </p>
       </div>
-      <p className="video-signin-note" style={{ opacity: note }}>
-        Your OS signs you in. Your apps keep running.
-      </p>
     </div>
   );
 }
@@ -205,24 +200,20 @@ function SignInScene({ t }: { t: number }) {
 function EndCard({ t }: { t: number }) {
   const k = easeInOutCubic(progress(t, END_CARD.in, END_CARD.in + 800));
   if (k === 0) return null;
-  const radius = `${String(mix(0, 120, k))}%`;
+  const radius = `${String(mix(0, 150, k))}%`;
   const content = easeOutCubic(progress(t, END_CARD.in + 300, END_CARD.in + 1100));
-  const pills = easeOutCubic(progress(t, END_CARD.in + 700, END_CARD.in + 1400));
+  const details = easeOutCubic(progress(t, END_CARD.in + 700, END_CARD.in + 1400));
   return (
-    <div className="video-end" style={{ clipPath: `circle(${radius} at 78% 62%)` }}>
+    <div className="video-end" style={{ clipPath: `circle(${radius} at 97% 97%)` }}>
       <div
         style={{ opacity: content, transform: `translateY(${String(mix(20, 0, content))}px)` }}
         className="video-end-content"
       >
         <img src={iconUrl} alt="" className="video-end-icon" />
         <p className="video-end-title">Userhop</p>
-        <p className="video-end-body">Every account on your computer, one keystroke away.</p>
-        <p className="video-end-pills" style={{ opacity: pills }}>
-          <span>Windows 10/11</span>
-          <span>macOS</span>
-          <span>Linux</span>
-          <span>No passwords stored</span>
-          <span>Free &amp; open source</span>
+        <p className="video-end-body">Switch users in one keystroke.</p>
+        <p className="video-end-details" style={{ opacity: details }}>
+          Windows · macOS · Linux · free and open source
         </p>
       </div>
     </div>
@@ -257,59 +248,22 @@ export function VideoStage() {
   }, []);
 
   const { t, cursor } = frame;
-  const light = easeInOutCubic(progress(t, THEME_SWITCH.start, THEME_SWITCH.end));
-  const drift = t / 1000;
+  const flyoutOpen = FLYOUT_WINDOWS.some((w) => t >= w.open && t <= w.close);
   const clickRipple = [CLICKS.settings, CLICKS.light]
     .map((at) => progress(t, at, at + 320))
     .find((p) => p > 0 && p < 1);
 
   return (
-    <div ref={stageRef} className="preview-stage video-stage">
-      <div className="video-layer preview-dark-bg">
-        <div
-          className="preview-glow preview-glow-a"
-          style={{
-            transform: `translate(${String(Math.sin(drift * 0.6) * 40)}px, ${String(Math.cos(drift * 0.5) * 30)}px)`,
-          }}
-        />
-        <div
-          className="preview-glow preview-glow-b"
-          style={{
-            transform: `translate(${String(Math.cos(drift * 0.45) * 50)}px, ${String(Math.sin(drift * 0.4) * 30)}px)`,
-          }}
-        />
-        <div
-          className="preview-glow preview-glow-c"
-          style={{
-            transform: `translate(${String(Math.sin(drift * 0.35) * 60)}px, ${String(Math.cos(drift * 0.3) * 40)}px)`,
-          }}
-        />
-      </div>
-      <div className="video-layer preview-light preview-light-bg" style={{ opacity: light }}>
-        <div
-          className="preview-glow preview-glow-a"
-          style={{
-            transform: `translate(${String(Math.sin(drift * 0.6) * 40)}px, ${String(Math.cos(drift * 0.5) * 30)}px)`,
-          }}
-        />
-        <div
-          className="preview-glow preview-glow-b"
-          style={{
-            transform: `translate(${String(Math.cos(drift * 0.45) * 50)}px, ${String(Math.sin(drift * 0.4) * 30)}px)`,
-          }}
-        />
-        <div
-          className="preview-glow preview-glow-c"
-          style={{
-            transform: `translate(${String(Math.sin(drift * 0.35) * 60)}px, ${String(Math.cos(drift * 0.3) * 40)}px)`,
-          }}
-        />
-      </div>
-      <Captions t={t} light={light} />
-      <div className="preview-window video-window" style={{ height, ...flyoutStyle(t) }}>
+    <div ref={stageRef} className="desktop preview-stage video-stage" data-theme="dark">
+      <Captions t={t} />
+      <div
+        className="desktop-flyout preview-window video-window"
+        style={{ height, ...flyoutStyle(t) }}
+      >
         <App />
       </div>
-      <Keycaps t={t} light={light} />
+      <Taskbar active={flyoutOpen} />
+      <Keycaps t={t} />
       <SignInScene t={t} />
       {cursor && (
         <div className="video-cursor" style={{ left: cursor.x, top: cursor.y }}>

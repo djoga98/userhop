@@ -25,15 +25,6 @@ export function envelope(
 
 export const mix = (from: number, to: number, amount: number) => from + (to - from) * amount;
 
-export function mixColor(
-  from: [number, number, number],
-  to: [number, number, number],
-  amount: number,
-) {
-  const [r, g, b] = from.map((channel, i) => Math.round(mix(channel, to[i] ?? channel, amount)));
-  return `rgb(${String(r)}, ${String(g)}, ${String(b)})`;
-}
-
 export type Keystroke = { at: number; keys: string[] };
 
 export const KEYSTROKES: Keystroke[] = [
@@ -55,7 +46,6 @@ export const FLYOUT_WINDOWS: FlyoutWindow[] = [
 ];
 
 export const SIGN_IN = { in: 4050, out: 6900 };
-export const THEME_SWITCH = { start: 9550, end: 10150 };
 export const END_CARD = { in: 12300 };
 export const CLICKS = { settings: 8750, light: 9550 };
 
@@ -63,7 +53,7 @@ export type Caption = { title: string; body: string; in: number; out: number };
 
 export const CAPTIONS: Caption[] = [
   {
-    title: "Switch accounts\nin a keystroke",
+    title: "Switch users\nin one keystroke",
     body: "Press Win + Shift + U from anywhere.",
     in: 250,
     out: 3900,

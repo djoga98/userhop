@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="assets/readme/banner.svg" alt="Userhop — switch between the accounts on your computer from a tiny, keyboard-first flyout" width="100%">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/readme/banner-dark.svg">
+    <img src="assets/readme/banner-light.svg" alt="Userhop: switch users in one keystroke" width="100%">
+  </picture>
 </p>
 
 <p align="center">
@@ -41,7 +44,10 @@ Sharing one computer between work and personal accounts, or with family? Normall
 ## How it works
 
 <p align="center">
-  <img src="assets/readme/how-it-works.svg" alt="1. Press Win + Shift + U or click the tray icon. 2. Pick an account. 3. Sign in on the operating system's own screen; your apps keep running." width="100%">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/readme/how-it-works-dark.svg">
+    <img src="assets/readme/how-it-works-light.svg" alt="1. Press Win + Shift + U or click the tray icon. 2. Pick an account. 3. Sign in on the operating system's own screen; your apps keep running." width="100%">
+  </picture>
 </p>
 
 When you pick another account, the app hides and hands over to the operating system:
@@ -54,7 +60,7 @@ When you pick another account, the app hides and hands over to the operating sys
 
 <picture>
   <source media="(prefers-color-scheme: light)" srcset="assets/readme/hero-light.webp">
-  <img alt="The switcher flyout listing four accounts; Sam Rivera is marked Last used and selected, ready to switch back" src="assets/readme/hero-dark.webp" width="100%">
+  <img alt="The Userhop panel open above the taskbar, listing four accounts; Sam Rivera is marked Last used and selected, ready to switch back" src="assets/readme/hero-dark.webp" width="100%">
 </picture>
 
 <table>

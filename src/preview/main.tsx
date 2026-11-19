@@ -3,6 +3,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import "../styles/index.css";
+import "../../site/desktop.css";
 import "./preview.css";
 import "./video.css";
 import { heightStore } from "./heightStore";

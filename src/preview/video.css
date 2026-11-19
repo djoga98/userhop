@@ -1,7 +1,6 @@
 .video-stage {
   width: 1280px;
   height: 720px;
-  font-family: var(--font-sans);
 }
 
 .video-stage *,
@@ -11,49 +10,41 @@
   transition: none !important;
 }
 
-.video-layer {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-.preview-light-bg {
-  background: #e8eef8;
-}
-
 .video-window {
   transform-origin: 70% 100%;
 }
 
 .video-caption {
   position: absolute;
-  left: 76px;
-  top: 46%;
+  left: 72px;
+  top: 42%;
   max-width: 600px;
+  color: var(--desk-text);
 }
 
 .video-caption-title {
-  margin: 0 0 16px;
+  margin: 0 0 14px;
   white-space: pre-line;
+  font-family: "Segoe UI Variable Display", var(--font-sans);
   font-size: 46px;
-  font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.025em;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
 }
 
 .video-caption-body {
   margin: 0;
-  font-size: 21px;
-  opacity: 0.78;
+  color: var(--desk-text-2);
+  font-size: 20px;
 }
 
 .video-keys {
   position: absolute;
-  left: 76px;
-  bottom: 64px;
+  left: 72px;
+  bottom: 96px;
   display: flex;
   align-items: center;
-  color: #f5f7ff;
+  color: var(--desk-text);
 }
 
 .video-key-group {
@@ -62,59 +53,31 @@
 }
 
 .video-plus {
-  margin: 0 12px;
-  font-size: 22px;
-  opacity: 0.7;
+  margin: 0 10px;
+  color: var(--desk-text-2);
+  font-size: 20px;
 }
 
 .video-key {
   display: inline-block;
   min-width: 44px;
-  padding: 11px 18px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-bottom-width: 4px;
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  padding: 9px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom-width: 3px;
+  border-radius: 6px;
+  background: rgba(40, 44, 52, 0.72);
+  backdrop-filter: blur(20px);
   font-family: var(--font-sans);
-  font-size: 22px;
-  font-weight: 650;
+  font-size: 20px;
+  font-weight: 600;
   text-align: center;
 }
 
 .video-key-pressed {
+  margin-top: 2px;
   border-bottom-width: 1px;
-  margin-top: 3px;
-  background: rgba(120, 181, 255, 0.35);
-  border-color: rgba(120, 181, 255, 0.8);
-}
-
-.video-keys-light {
-  color: #141a2e;
-}
-
-.video-keys-light .video-key {
-  border-color: rgba(20, 26, 46, 0.2);
-  background: rgba(255, 255, 255, 0.78);
-  box-shadow: 0 10px 30px rgba(40, 60, 120, 0.15);
-}
-
-.video-keys-light .video-key-pressed {
-  background: rgba(37, 99, 235, 0.18);
-  border-color: rgba(37, 99, 235, 0.6);
-}
-
-.video-signin {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 34px;
-  background: rgba(6, 9, 22, 0.62);
-  backdrop-filter: blur(22px) saturate(140%);
-  color: #f5f7ff;
+  border-color: var(--desk-accent);
+  background: rgba(96, 205, 255, 0.22);
 }
 
 .video-signin-card {
@@ -122,48 +85,29 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 40px 72px 34px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  text-align: center;
 }
 
-.video-signin-avatar {
-  display: grid;
-  place-items: center;
-  width: 112px;
-  height: 112px;
+.video-signin-card .desktop-avatar {
   margin-bottom: 8px;
-  border-radius: 9999px;
-  background: hsl(152 34% 32%);
-  color: hsl(152 80% 90%);
-  font-size: 40px;
-  font-weight: 650;
 }
 
 .video-signin-name {
   margin: 0;
+  font-family: "Segoe UI Variable Display", var(--font-sans);
   font-size: 30px;
-  font-weight: 650;
+  font-weight: 600;
 }
 
-.video-signin-hint {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 6px 0 0;
-  padding: 8px 16px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.1);
-  font-size: 16px;
-  opacity: 0.9;
+.video-signin-text {
+  margin: 0;
+  font-size: 18px;
 }
 
 .video-signin-note {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 600;
+  margin: 4px 0 0;
+  color: var(--desk-text-2);
+  font-size: 16px;
 }
 
 .video-cursor {
@@ -188,18 +132,17 @@
   top: 0;
   width: 56px;
   height: 56px;
+  border: 3px solid var(--desk-accent);
   border-radius: 9999px;
-  border: 3px solid rgba(120, 181, 255, 0.9);
 }
 
 .video-end {
   position: absolute;
   inset: 0;
+  z-index: 6;
   display: grid;
   place-items: center;
-  background:
-    radial-gradient(circle at 20% 15%, rgba(59, 108, 246, 0.7), transparent 55%),
-    radial-gradient(circle at 85% 95%, rgba(162, 75, 255, 0.55), transparent 55%), #0f1630;
+  background: #202020;
   color: #ffffff;
 }
 
@@ -211,35 +154,27 @@
 }
 
 .video-end-icon {
-  width: 132px;
-  height: 132px;
-  margin-bottom: 26px;
-  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.4));
+  width: 120px;
+  height: 120px;
+  margin-bottom: 24px;
 }
 
 .video-end-title {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
+  font-family: "Segoe UI Variable Display", var(--font-sans);
   font-size: 54px;
-  font-weight: 700;
-  letter-spacing: -0.025em;
+  font-weight: 600;
+  letter-spacing: -0.015em;
 }
 
 .video-end-body {
-  margin: 0 0 28px;
+  margin: 0 0 22px;
+  color: #c8c8c8;
   font-size: 23px;
-  opacity: 0.82;
 }
 
-.video-end-pills {
-  display: flex;
-  gap: 12px;
+.video-end-details {
   margin: 0;
-}
-
-.video-end-pills span {
-  padding: 9px 18px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.12);
-  font-size: 17px;
-  font-weight: 600;
+  color: #9a9a9a;
+  font-size: 18px;
 }

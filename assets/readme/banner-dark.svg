@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="320" viewBox="0 0 1280 320" role="img" aria-labelledby="title desc">
+  <title id="title">Userhop</title>
+  <desc id="desc">Switch users in one keystroke. A small account switcher for Windows, macOS and Linux.</desc>
+  <rect x="0.5" y="0.5" width="1279" height="319" rx="12" fill="#202020" stroke="#333333"/>
+  <g transform="translate(88 96) scale(0.125)">
+    <defs>
+      <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4FA3F7"/><stop offset="1" stop-color="#1C5FC9"/></linearGradient>
+      <linearGradient id="front" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E3EEFC"/></linearGradient>
+    </defs>
+    <rect x="64" y="64" width="896" height="896" rx="208" fill="url(#tile)"/>
+    <g fill="#FFFFFF" fill-opacity="0.42"><circle cx="642" cy="372" r="118"/><path d="M442 760c0-136 90-226 200-226s200 90 200 226v18H442z"/></g>
+    <g fill="url(#front)"><circle cx="420" cy="420" r="132"/><path d="M196 830c0-150 100-250 224-250s224 100 224 250v24H196z"/></g>
+  </g>
+  <g font-family="'Segoe UI Variable Display', 'Segoe UI', -apple-system, 'Helvetica Neue', Arial, sans-serif" fill="#ffffff">
+    <text x="240" y="150" font-size="60" font-weight="600" letter-spacing="-0.8">Userhop</text>
+  </g>
+  <g font-family="'Segoe UI Variable Text', 'Segoe UI', -apple-system, 'Helvetica Neue', Arial, sans-serif">
+    <text x="242" y="196" font-size="24" fill="#ffffff">Switch users in one keystroke.</text>
+    <text x="242" y="234" font-size="17" fill="#c8c8c8">Windows 10/11 · macOS · Linux · no passwords stored · no telemetry</text>
+  </g>
+  <g font-family="'Segoe UI Variable Text', 'Segoe UI', -apple-system, 'Helvetica Neue', Arial, sans-serif">
+    <rect x="860" y="40" width="360" height="248" rx="8" fill="#2b2b2b" stroke="#333333"/>
+    <text x="880" y="74" font-size="15" font-weight="600" fill="#ffffff">Switch account</text>
+    <line x1="860" y1="90" x2="1220" y2="90" stroke="#333333"/>
+    <rect x="868" y="140" width="344" height="52" rx="6" fill="none" stroke="#60cdff" stroke-width="2"/>
+    <circle cx="896" cy="110" r="17" fill="#4b3d7a"/>
+    <text x="896" y="115" text-anchor="middle" font-size="13" font-weight="600" fill="#e2d9ff">AM</text>
+    <rect x="926" y="99" width="120" height="9" rx="4.5" fill="#4a4a4a"/>
+    <rect x="926" y="115" width="86" height="7" rx="3.5" fill="#3a3a3a"/>
+    <circle cx="896" cy="168" r="17" fill="#2f6b52"/>
+    <text x="896" y="173" text-anchor="middle" font-size="13" font-weight="600" fill="#d4f5e4">SR</text>
+    <rect x="926" y="157" width="104" height="9" rx="4.5" fill="#4a4a4a"/>
+    <rect x="926" y="173" width="70" height="7" rx="3.5" fill="#3a3a3a"/>
+    <circle cx="896" cy="226" r="17" fill="#7a5236"/>
+    <text x="896" y="231" text-anchor="middle" font-size="13" font-weight="600" fill="#ffe2cc">JL</text>
+    <rect x="926" y="215" width="96" height="9" rx="4.5" fill="#4a4a4a"/>
+    <rect x="926" y="231" width="80" height="7" rx="3.5" fill="#3a3a3a"/>
+    <line x1="860" y1="252" x2="1220" y2="252" stroke="#333333"/>
+    <text x="880" y="275" font-size="12" fill="#c8c8c8">Win + Shift + U</text>
+    <text x="1200" y="275" font-size="12" text-anchor="end" fill="#c8c8c8">Secure OS sign-in</text>
+  </g>
+</svg>

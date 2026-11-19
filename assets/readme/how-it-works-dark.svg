@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="200" viewBox="0 0 1200 200" role="img" aria-labelledby="t d">
+  <title id="t">How switching works</title>
+  <desc id="d">Press the shortcut, pick an account, then your operating system shows its own sign-in screen. Your apps keep running.</desc>
+  <rect x="0.5" y="0.5" width="1199" height="199" rx="12" fill="#202020" stroke="#333333"/>
+  <g font-family="'Segoe UI Variable Text', 'Segoe UI', -apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <g transform="translate(40 44)">
+    <circle cx="18" cy="18" r="18" fill="#60cdff"/>
+    <text x="18" y="24" text-anchor="middle" font-size="17" font-weight="600" fill="#000000">1</text>
+    <text x="0" y="82" font-size="22" font-weight="600" fill="#ffffff">Press Win + Shift + U</text>
+    <text x="0" y="112" font-size="17" fill="#c8c8c8">or click the tray icon.</text>
+  </g>
+  <line x1="406" y1="44" x2="406" y2="156" stroke="#333333"/>
+  <g transform="translate(426 44)">
+    <circle cx="18" cy="18" r="18" fill="#60cdff"/>
+    <text x="18" y="24" text-anchor="middle" font-size="17" font-weight="600" fill="#000000">2</text>
+    <text x="0" y="82" font-size="22" font-weight="600" fill="#ffffff">Pick an account</text>
+    <text x="0" y="112" font-size="17" fill="#c8c8c8">with the arrow keys or the mouse.</text>
+  </g>
+  <line x1="792" y1="44" x2="792" y2="156" stroke="#333333"/>
+  <g transform="translate(812 44)">
+    <circle cx="18" cy="18" r="18" fill="#60cdff"/>
+    <text x="18" y="24" text-anchor="middle" font-size="17" font-weight="600" fill="#000000">3</text>
+    <text x="0" y="82" font-size="22" font-weight="600" fill="#ffffff">Sign in on the OS screen</text>
+    <text x="0" y="112" font-size="17" fill="#c8c8c8">Your apps keep running.</text>
+  </g>
+  </g>
+</svg>
