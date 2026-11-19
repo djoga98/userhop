@@ -23,7 +23,7 @@
     <img alt="Demo: pressing Win + Shift + U opens the flyout, the arrow key selects Sam Rivera, Enter hands off to the system sign-in screen, then Settings switches the app to the light theme" src="assets/readme/demo.webp" width="100%">
   </a>
   <br>
-  <sub>▶ <a href="assets/readme/demo.mp4"><b>Watch the illustrated demo in HD</b></a> (MP4, 1080p, 15 s)</sub>
+  <sub>▶ <a href="assets/readme/demo.mp4"><b>Watch the illustrated demo in HD</b></a> (MP4, 1080p, 15 s) · <a href="https://djoga98.github.io/userhop/#try"><b>Try it in your browser</b></a></sub>
 </p>
 
 ## Why you'll like it
@@ -61,7 +61,7 @@ When you pick another account, the app hides and hands over to the operating sys
   <tr>
     <td width="33%" align="center"><img src="assets/readme/list-light.webp" alt="Account list in the light theme"><br><sub><b>Light or dark</b><br>Follows your system, or pick one.</sub></td>
     <td width="33%" align="center"><img src="assets/readme/settings-dark.webp" alt="Settings view with startup, shortcut and appearance options"><br><sub><b>Simple settings</b><br>Startup, shortcut, theme and motion.</sub></td>
-    <td width="33%" align="center"><img src="assets/readme/notice-dark.webp" alt="A clear message explaining that switching isn't available in a remote session"><br><sub><b>Clear when it can't</b><br>Tells you why, and what you can do instead.</sub></td>
+    <td width="33%" align="center"><img src="assets/readme/notice-dark.webp" alt="A clear message explaining that switching isn't available in a remote session"><br><sub><b>Clear when it can't</b><br>Tells you why instead of failing quietly.</sub></td>
   </tr>
 </table>
 
@@ -259,6 +259,8 @@ ffmpeg -framerate 30 -i .video/frames/frame-%05d.png -c:v libx264 -crf 18 -pix_f
 ffmpeg -framerate 30 -i .video/frames/frame-%05d.png -vf "fps=20,scale=960:-1:flags=lanczos" \
   -c:v libwebp_anim -quality 95 -loop 0 assets/readme/demo.webp
 ```
+
+The website lives in `site/`. Its live demo runs the same app components in an iframe against an in-memory mock backend (`demo/`, `src/demo/`). Preview it with `pnpm site:preview`; pushes to `main` deploy it to GitHub Pages through `.github/workflows/pages.yml`.
 
 </details>
 
